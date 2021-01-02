@@ -13,7 +13,7 @@ textarea {
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
-  border: none;
+  border: 1px solid #004281;
 }
 textarea:focus {
   outline: none;

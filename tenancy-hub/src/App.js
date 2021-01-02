@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import Login from "./Pages/Login-Modal/Login";
 import SignUp from "./Pages/SignUp/SignUp";
 import Homepage from "./Pages/Homepage";
+import MerchantDashboard from "./Pages/Dashboard/Merchant-Dashboard";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route path="/Login" component={Login} />
+        <Route path="/admin" component={MerchantDashboard} />
         <Route path="/register" component={SignUp} />
       </Switch>
     </Fragment>
