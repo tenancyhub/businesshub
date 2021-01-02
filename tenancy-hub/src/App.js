@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from "react";
+import NavBar from "./components/NavBar/NavigationBar";
+import "./App.css";
+import { Route, Switch } from "react-router-dom";
+import Login from "./Pages/Login-Modal/Login";
+import SignUp from "./Pages/SignUp/SignUp";
+import Homepage from "./Pages/Homepage";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <NavBar />
+
+      <Switch>
+        <Route exact path="/" component={Homepage} />
+        <Route path="/Login" component={Login} />
+        <Route path="/register" component={SignUp} />
+      </Switch>
+    </Fragment>
   );
-}
+};
 
 export default App;

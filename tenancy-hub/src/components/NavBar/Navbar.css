@@ -1,0 +1,16 @@
+nav {
+  font-size: 20px;
+  /* font-weight: bold; */
+  color: white;
+  background-color: #004182 !important;
+  /* background-color: #283e4a !important; */
+  border-bottom: 1px solid;
+}
+
+a {
+  text-decoration: none;
+  color: white !important;
+}
+/* i {
+  color: white;
+} */
