@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 import LoginBtn from "../../components/CustomButton/CustomButton";
-import { Link } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+
+import axios from "axios";
+// import util from "../../utils/BaseUrl";
+
 const Login = (props) => {
   // useEffect(() => {
   //   if (isAuthenticated) {
@@ -20,12 +24,30 @@ const Login = (props) => {
     email: "",
     password: "",
   });
-  const { email, password } = user;
 
   const [show, setShow] = useState(false);
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log("see mrere");
+    const { email, password } = user;
+
+    const config = {
+      headers: {
+        "content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.post(
+        `http://fathomless-harbor-02544.herokuapp.com/login`,
+        { email, password },
+        config
+      );
+      window.localStorage.setItem("token_id", res.data.token);
+      props.history.push("/admin");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onChange = (e) => {
@@ -60,7 +82,7 @@ const Login = (props) => {
               <FormInput
                 type="email"
                 name="email"
-                value={email}
+                // value={email}
                 placeholder="Enter email Address"
                 onChange={onChange}
                 required
@@ -71,7 +93,7 @@ const Login = (props) => {
               <FormInput
                 type="password"
                 name="password"
-                value={password}
+                // value={password}
                 placeholder="Enter password"
                 onChange={onChange}
                 required
@@ -79,11 +101,7 @@ const Login = (props) => {
             </div>
 
             <LoginBtn
-              // onClick={() => {
-              //   this.props.history.push(
-              //     `/registry/${window.localStorage.slug}`
-              //   );
-              // }}
+              onClick={onSubmit}
               style={{ width: "100%" }}
               type="submit"
             >

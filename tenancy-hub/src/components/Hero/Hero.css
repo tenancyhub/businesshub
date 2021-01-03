@@ -11,3 +11,16 @@
   width: 80%;
   letter-spacing: 1.5px;
 }
+
+@media screen and (max-width: 480px) {
+  .hero-text h2 {
+    /* padding: 5px; */
+    width: 100%;
+    font-size: 20px;
+    /* letter-spacing: 1.5px; */
+  }
+  .hero-container {
+    width: 100%;
+    height: auto;
+  }
+}

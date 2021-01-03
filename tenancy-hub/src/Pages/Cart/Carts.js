@@ -1,18 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ProductContext from "../../Context/ProductItems/ProductContext";
+import { connect } from "react-redux";
 import PayWithStripeBtn from "../../components/StripeGateway/PayWithStripeBtn";
+import {
+  deleteItem,
+  decreaseCart,
+  addToCart,
+} from "../../actions/productAction";
 import "./carts.css";
 import CartEmpty from "../Cart/cart-empty.svg";
 
-const Carts = () => {
-  const productContext = useContext(ProductContext);
-
-  const { cart } = productContext;
-
-  const { deleteItem, decreaseCart, addToCart } = productContext;
-
+const Carts = ({
+  productState: { cart },
+  deleteItem,
+  cart,
+  decreaseCart,
+  addToCart,
+}) => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -129,4 +134,11 @@ const Carts = () => {
   );
 };
 
-export default Carts;
+const mapStateToProps = (state) => ({
+  productState: state.product,
+});
+export default connect(mapStateToProps, {
+  deleteItem,
+  decreaseCart,
+  addToCart,
+})(Carts);

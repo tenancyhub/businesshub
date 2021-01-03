@@ -13,19 +13,19 @@ const SignUp = () => {
     address: "",
     description: "",
     storeName: "",
-    storeUrl: "",
+    // storeUrl: "",
   });
-  const {
-    firstname,
-    lastname,
-    email,
-    password,
-    confirmPassword,
-    description,
-    storeName,
-    address,
-    storeUrl,
-  } = user;
+  // const {
+  //   firstname,
+  //   lastname,
+  //   email,
+  //   password,
+  //   confirmPassword,
+  //   description,
+  //   storeName,
+  //   address,
+  //   // storeUrl,
+  // } = user;
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -111,7 +111,7 @@ const SignUp = () => {
               placeholder="Store name"
             />
           </div>
-          <div>
+          {/* <div>
             <label>Store Url</label>
             <FormInput
               type="text"
@@ -119,7 +119,7 @@ const SignUp = () => {
               onChange={handleChange}
               placeholder="Store Url"
             />
-          </div>
+          </div> */}
           <div>
             <label>Description</label>
             <textarea
