@@ -39,7 +39,7 @@ const Login = (props) => {
     };
     try {
       const res = await axios.post(
-        `http://fathomless-harbor-02544.herokuapp.com/login`,
+        `https://fathomless-harbor-02544.herokuapp.com/login`,
         { email, password },
         config
       );
