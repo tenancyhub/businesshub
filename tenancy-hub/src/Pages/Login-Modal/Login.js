@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 import LoginBtn from "../../components/CustomButton/CustomButton";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 // import util from "../../utils/BaseUrl";
