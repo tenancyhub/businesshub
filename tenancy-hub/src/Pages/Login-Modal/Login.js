@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 import LoginBtn from "../../components/CustomButton/CustomButton";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 // import util from "../../utils/BaseUrl";
@@ -20,6 +20,7 @@ const Login = (props) => {
   //   // eslint-disable-next-line
   // }, [error, isAuthenticated, props.history]);
 
+  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -44,7 +45,8 @@ const Login = (props) => {
         config
       );
       window.localStorage.setItem("token_id", res.data.token);
-      props.history.push("/admin");
+      // history.push("/admin");
+      window.location.href = "/admin";
     } catch (err) {
       console.log(err);
     }
