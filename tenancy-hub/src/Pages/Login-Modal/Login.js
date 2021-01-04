@@ -2,30 +2,38 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 import LoginBtn from "../../components/CustomButton/CustomButton";
-import { Link } from "react-router-dom";
-const Login = (props) => {
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     props.history.push("/");
-  //   }
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../actions/AuthAction";
 
-  //   if (error === "Invalid Credentials") {
-  //     setAlert(error, "danger");
-  //     clearError();
-  //   }
-  //   // eslint-disable-next-line
-  // }, [error, isAuthenticated, props.history]);
+const Login = ({ login, isAuthenticated }, ...props) => {
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/admin");
+      window.href = "/admin";
+      console.log("ddffssd");
+    }
 
+    // if (error === "Invalid Credentials") {
+    //   setAlert(error, "danger");
+    //   clearError();
+    // }
+    // eslint-disable-next-line
+  }, [isAuthenticated, props.history]);
+
+  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const { email, password } = user;
 
   const [show, setShow] = useState(false);
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log("see mrere");
+    const { email, password } = user;
+    login({ email, password });
   };
 
   const onChange = (e) => {
@@ -60,7 +68,7 @@ const Login = (props) => {
               <FormInput
                 type="email"
                 name="email"
-                value={email}
+                // value={email}
                 placeholder="Enter email Address"
                 onChange={onChange}
                 required
@@ -71,24 +79,21 @@ const Login = (props) => {
               <FormInput
                 type="password"
                 name="password"
-                value={password}
+                // value={password}
                 placeholder="Enter password"
                 onChange={onChange}
                 required
               />
             </div>
 
-            <LoginBtn
-              // onClick={() => {
-              //   this.props.history.push(
-              //     `/registry/${window.localStorage.slug}`
-              //   );
-              // }}
-              style={{ width: "100%" }}
+            <FormInput
+              onClick={onSubmit}
+              style={{ width: "100%", color: "black", background: "grey" }}
               type="submit"
-            >
-              Login
-            </LoginBtn>
+              value="Login"
+            />
+            {/* Login */}
+            {/* </FormInput> */}
 
             <small
               style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}
@@ -102,5 +107,8 @@ const Login = (props) => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  authState: state.isAuthenticated,
+});
 
-export default Login;
+export default connect(mapStateToProps, { login })(Login);

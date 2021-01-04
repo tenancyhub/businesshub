@@ -5,17 +5,28 @@ import {
   DECREASE_CART_ITEM,
   GET_TOTAL,
   GET_CART_LENGTH,
-} from "../Types";
+} from "../actions/Types";
 import {
   addItemToCart,
   decreaseItem,
   getAmountToPay,
   getCartLength,
-} from "../../utils/cart.utils";
+} from "../utils/cart.utils";
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
+const inCart = [];
+const initialState = {
+  inCart: JSON.parse(window.localStorage.getItem(inCart)),
+  cart: [],
+  filtered: null,
+  loading: true,
+  items: [],
+  error: null,
+  TotalAmountToPay: 0,
+  inCartLength: 0,
+};
 
-export default (state, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
       return {

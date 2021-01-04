@@ -40,8 +40,8 @@ const WhyTenancy = () => {
           <hr style={{ border: "2px solid #004182", width: "17%" }} />
         </div>
         <div className="row">
-          {benefits.map((item) => (
-            <div className="col-sm col-md-3 col-lg-3">
+          {benefits.map((item, index) => (
+            <div className="col-sm col-md-3 col-lg-3 ma-2" key={index}>
               <div className="card cardShadow">
                 <div className="icon">
                   <img src={item.icon} alt="icon" width="90px" />

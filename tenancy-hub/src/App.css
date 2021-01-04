@@ -1,8 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
-
+@font-face {
+  font-family: helveticaneue;
+  src: url(helveticaneue.woff);
+}
 body {
   margin: 0px;
   box-sizing: border-box;
+  font-family: helveticaneue;
 }
 .logo {
   font-family: "Dancing+Script";

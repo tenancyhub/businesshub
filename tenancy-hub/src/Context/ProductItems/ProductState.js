@@ -10,7 +10,7 @@ import {
   GET_TOTAL,
   DECREASE_CART_ITEM,
   GET_CART_LENGTH,
-} from "../Types";
+} from "../../actions/Types";
 
 const ProductState = (props) => {
   const inCart = [];

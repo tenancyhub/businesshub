@@ -39,3 +39,12 @@
   place-items: center;
   padding: 20px;
 }
+
+@media screen and (max-width: 480px) {
+  .tenancy-section {
+    background: white;
+    /* margin-top: 2%; */
+    /* margin-bottom: 5%; */
+    padding: 20px;
+  }
+}

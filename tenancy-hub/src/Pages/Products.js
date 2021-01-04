@@ -1,15 +1,13 @@
-import React, { useEffect, useContext } from "react";
-import ProductCard from "../components/Productcard/ProductCard";
-import ProductContext from "../Context/ProductItems/ProductContext";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Skeleton } from "antd";
+import ProductCard from "../components/Productcard/ProductCard";
+import { connect } from "react-redux";
+import { addToCart, getItems } from "../actions/productAction";
 import { BackTop } from "antd";
 import "antd/dist/antd.css";
 
-const Products = () => {
-  const productContext = useContext(ProductContext);
-  const { items, addToCart, getItems, loading } = productContext;
-
+const Products = ({ product: { items, loading }, addToCart, getItems }) => {
   const notify = () =>
     toast.success("Added to cart !", {
       position: "top-right",
@@ -52,4 +50,8 @@ const Products = () => {
   );
 };
 
-export default Products;
+const mapStateToProps = (state) => ({
+  product: state.product,
+});
+
+export default connect(mapStateToProps, { addToCart, getItems })(Products);

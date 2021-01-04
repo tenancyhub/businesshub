@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <div className="container-fluid hero-container">
       <div className="row">
-        <div className="col-sm col-md-6 col-lg-6 hero-content">
+        <div className="col-sm col-md-6 col-lg-6 hero-content ">
           <div className="hero-text">
             <h2>
               Need an online platform to build and grow your business? — Pitch
@@ -27,7 +27,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="col-sm col-md-6 col-lg-6">
+        <div className="col-sm col-md-6 col-lg-6 order-sm-first">
           <HeroCarousel />
         </div>
       </div>

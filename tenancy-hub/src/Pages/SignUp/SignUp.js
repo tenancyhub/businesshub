@@ -1,43 +1,76 @@
 import React, { useState } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
 import Register from "../../components/CustomButton/CustomButton";
+// import { connect } from "react-redux";
+// import { register } from "../../actions/AuthAction ";
+import axios from "axios";
+import util from "../../utils/util";
+
 import "./SignUp.css";
 
 const SignUp = () => {
   const [user, setUser] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
+    phoneNumber: "",
     confirmPassword: "",
     address: "",
     description: "",
     storeName: "",
-    storeUrl: "",
+    // storeUrl: "",
   });
   const {
-    firstname,
-    lastname,
+    lastName,
+    firstName,
     email,
     password,
-    confirmPassword,
-    description,
+    phoneNumber,
     storeName,
     address,
-    storeUrl,
+    // storeUrl,
   } = user;
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    // console.log(user);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     // e.peventDefault();
     event.preventDefault();
+
+    const config = {
+      headers: {
+        "content-Type": "application/json",
+      },
+    };
+    try {
+      await axios.post(
+        `${util.API_BASE_URL}register-merchant`,
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+          phoneNumber,
+          storeName,
+          address,
+        },
+        config
+      );
+      alert("registered");
+    } catch (err) {
+      if (err.response.data.status === 422) {
+        alert(err.response.data.message);
+      }
+    }
     setUser({
       firstname: "",
       lastname: "",
       email: "",
       password: "",
+      phoneNumber: "",
       address: "",
       description: "",
       storeName: "",
@@ -58,6 +91,7 @@ const SignUp = () => {
             <FormInput
               type="text"
               label="Fisrstname"
+              name="firstName"
               // value={firstname}
               onChange={handleChange}
               placeholder="Firstname"
@@ -68,6 +102,7 @@ const SignUp = () => {
             <FormInput
               type="text"
               // value={lastname}
+              name="lastName"
               onChange={handleChange}
               placeholder="Last Name"
             />
@@ -78,6 +113,7 @@ const SignUp = () => {
             <FormInput
               type="email"
               //   value={email}
+              name="email"
               onChange={handleChange}
               placeholder="Enter email address"
             />
@@ -88,6 +124,7 @@ const SignUp = () => {
             <FormInput
               type="password"
               // value={password}
+              name="password"
               onChange={handleChange}
               placeholder="Password"
             />
@@ -97,6 +134,7 @@ const SignUp = () => {
             <FormInput
               type="password"
               // value={confirmPassword}
+              name="confirmPassword"
               onChange={handleChange}
               placeholder="Confirm Password"
             />
@@ -107,23 +145,25 @@ const SignUp = () => {
             <FormInput
               type="text"
               //   value={storeName}
+              name="storeName"
               onChange={handleChange}
               placeholder="Store name"
             />
           </div>
           <div>
-            <label>Store Url</label>
+            <label>Phone </label>
             <FormInput
               type="text"
               //   value={storeUrl}
+              name="phoneNumber"
               onChange={handleChange}
-              placeholder="Store Url"
+              placeholder="Phone Number"
             />
           </div>
           <div>
             <label>Description</label>
             <textarea
-              class="group"
+              className="group"
               name="description"
               //   value={description}
               onChange={handleChange}
@@ -137,6 +177,7 @@ const SignUp = () => {
             <FormInput
               type="text"
               onChange={handleChange}
+              name="address"
               //   value={address}
               placeholder="Address"
             />
@@ -147,5 +188,9 @@ const SignUp = () => {
     </div>
   );
 };
+//  const mapStateToProps = (state) => ({
+
+// })
 
 export default SignUp;
+// export default connect(null, { register })(SignUp);
