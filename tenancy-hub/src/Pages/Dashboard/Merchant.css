@@ -3,7 +3,7 @@
   width: 250px;
   position: fixed;
   z-index: 1;
-  /* top: 0; */
+  top: 12%;
   left: 0;
   /* background: rgba(140, 145, 150, 1); */
   background: rgba(186, 191, 195, 1);
@@ -78,7 +78,7 @@
   .sidebar {
     display: none;
   }
-  #main {
+  /* #main {
     margin-left: 0px;
-  }
+  } */
 }

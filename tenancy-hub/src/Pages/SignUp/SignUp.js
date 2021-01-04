@@ -8,7 +8,7 @@ import util from "../../utils/util";
 
 import "./SignUp.css";
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -59,23 +59,25 @@ const SignUp = () => {
         },
         config
       );
+      props.history.push("/admin");
+      // window.href = "/admin";
       alert("registered");
     } catch (err) {
       if (err.response.data.status === 422) {
         alert(err.response.data.message);
       }
     }
-    setUser({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      address: "",
-      description: "",
-      storeName: "",
-      storeUrl: "",
-    });
+    // setUser({
+    //   firstname: "",
+    //   lastname: "",
+    //   email: "",
+    //   password: "",
+    //   phoneNumber: "",
+    //   address: "",
+    //   description: "",
+    //   storeName: "",
+    //   storeUrl: "",
+    // });
   };
 
   return (

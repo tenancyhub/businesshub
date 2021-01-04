@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import NavBar from "./components/NavBar/NavigationBar";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
@@ -13,6 +13,7 @@ import Products from "./Pages/Products";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import AddFormProduct from "./Pages/AddProductForm/AddFormProduct";
 const App = () => {
   return (
     <Provider store={store}>
@@ -23,7 +24,8 @@ const App = () => {
           <Route exact path="/" component={Homepage} />
           <Route path="/Login" component={Login} />
           <PrivateRoute path="/shop" component={Products} />
-          <PrivateRoute path="/admin" component={MerchantDashboard} />
+          <Route path="/add-product" component={AddFormProduct} />
+          <Route path="/admin" component={MerchantDashboard} />
           <Route path="/register" component={SignUp} />
           <Route component={ErrorPage} />
         </Switch>

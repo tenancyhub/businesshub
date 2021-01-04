@@ -27,6 +27,7 @@ export const loadUser = () => async (dispatch) => {
 //Register user
 
 export const register = (formData) => async (dispatch) => {
+  console.log("rerere");
   const config = {
     headers: {
       "content-Type": "application/json",
@@ -47,7 +48,7 @@ export const register = (formData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
-      payload: err,
+      payload: err.response.data,
     });
     // console.log(err.response.data.msg);
   }
