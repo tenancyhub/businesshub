@@ -12,8 +12,9 @@ import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import Products from "./Pages/Products";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./components/routing/PrivateRoute";
+// import PrivateRoute from "./components/routing/PrivateRoute";
 import AddFormProduct from "./Pages/AddProductForm/AddFormProduct";
+import Carts from "./Pages/Cart/Carts";
 const App = () => {
   return (
     <Provider store={store}>
@@ -23,7 +24,8 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/Login" component={Login} />
-          <PrivateRoute path="/shop" component={Products} />
+          <Route path="/shop" component={Products} />
+          <Route path="/cart" component={Carts} />
           <Route path="/add-product" component={AddFormProduct} />
           <Route path="/admin" component={MerchantDashboard} />
           <Route path="/register" component={SignUp} />

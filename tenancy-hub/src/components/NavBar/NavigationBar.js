@@ -5,7 +5,7 @@ import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
 import "./Navbar.css";
 
-const NavBar = ({ isUser, isAuthenticated }) => {
+const NavBar = ({ cart }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
 
@@ -44,7 +44,7 @@ const NavBar = ({ isUser, isAuthenticated }) => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/">
-                {isAuthenticated ? "Log out" : <Login />}
+                {localStorage.token ? "Log out" : <Login />}
               </Link>
             </li>
             {/* <li className="nav-item">
@@ -53,7 +53,7 @@ const NavBar = ({ isUser, isAuthenticated }) => {
               </Link>
             </li> */}
 
-            {!isAuthenticated && (
+            {!localStorage.token && (
               <li className="nav-item">
                 <SignUpButton
                   onClick={() => {
@@ -68,22 +68,22 @@ const NavBar = ({ isUser, isAuthenticated }) => {
             )}
           </ul>
         </div>
-        <span className="nav-item mr-auto" style={{ position: "relative" }}>
-          {isUser && (
+        {localStorage.token && (
+          <span className="nav-item mr-auto" style={{ position: "relative" }}>
             <Link className="nav-link" to="/cart">
               <i className="fas fa-shopping-cart fa-2x"></i>
 
-              {/* {cart && (
-              <p
-                className="badge badge-danger"
-                style={{ position: "absolute", top: "-2px", right: "35PX" }}
-              >
-                {cart.length}
-              </p>
-            )} */}
+              {cart && (
+                <p
+                  className="badge badge-danger"
+                  style={{ position: "absolute", top: "-2px", right: "35PX" }}
+                >
+                  {cart.length}
+                </p>
+              )}
             </Link>
-          )}
-        </span>
+          </span>
+        )}
         <button
           className="navbar-toggler"
           type="button"
@@ -96,8 +96,9 @@ const NavBar = ({ isUser, isAuthenticated }) => {
   );
 };
 const mapStateToProps = (state) => ({
-  isLogin: state.isAuthenticated,
-  user: state.user,
+  isLogin: state.Auth.isAuthenticated,
+  user: state.Auth.user,
+  cart: state.product.cart,
 });
 
 export default connect(mapStateToProps)(NavBar);

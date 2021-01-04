@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import PayWithStripeBtn from "../../components/StripeGateway/PayWithStripeBtn";
+import PayWithRaveBtn from "../../components/RaveGateway/PayWithRaveBtn";
 import {
   deleteItem,
   decreaseCart,
@@ -14,7 +14,6 @@ import CartEmpty from "../Cart/cart-empty.svg";
 const Carts = ({
   productState: { cart },
   deleteItem,
-  cart,
   decreaseCart,
   addToCart,
 }) => {
@@ -42,7 +41,7 @@ const Carts = ({
         </div>
         <p className="d-block">Your Cart is empty</p>
         <Link
-          to="/"
+          to="/shop"
           className="p-3 no-itembtn bg-info text-white"
           style={{
             border: "1px solid",
@@ -127,7 +126,7 @@ const Carts = ({
           className="p-3 m-auto text-white "
           style={{ border: "1px solid", backgroundColor: "#2dcc5d" }}
         >
-          <PayWithStripeBtn price={localStorage.total} />
+          <PayWithRaveBtn />
         </span>
       </div>
     </div>
