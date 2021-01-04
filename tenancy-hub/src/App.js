@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import NavBar from "./components/NavBar/NavigationBar";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";

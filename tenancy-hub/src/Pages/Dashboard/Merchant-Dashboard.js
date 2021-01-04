@@ -14,10 +14,13 @@ const MerchantDashboard = () => {
   const toggleSideBar = () => {
     setVeiw(!veiw);
   };
+  const toggleSide = () => {
+    setSidebar(!sidebar);
+  };
   return (
     <div className="container-fluid">
       <div className={`${sidebar ? "sidebar" : "sidebar-show"} `}>
-        <span onClick={toggleSideBar} className="closebtn">
+        <span onClick={toggleSide} className="closebtn">
           ☰
         </span>
         <NavLink to="/admin" activeStyle={activeStyle}>

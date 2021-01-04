@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
 import Register from "../../components/CustomButton/CustomButton";
 // import { connect } from "react-redux";
@@ -9,6 +9,19 @@ import util from "../../utils/util";
 import "./SignUp.css";
 
 const SignUp = (props) => {
+  useEffect(() => {
+    if (localStorage.token) {
+      props.history.push("/admin");
+      // window.href = "/admin";
+      console.log("ddffssd");
+    }
+
+    // if (error === "Invalid Credentials") {
+    //   setAlert(error, "danger");
+    //   clearError();
+    // }
+    // eslint-disable-next-line
+  }, [localStorage.token, props.history]);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -47,7 +60,7 @@ const SignUp = (props) => {
     };
     try {
       await axios.post(
-        `${util.API_BASE_URL}register-merchant`,
+        `${util}register-merchant`,
         {
           firstName,
           lastName,

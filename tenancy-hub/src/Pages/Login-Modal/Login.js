@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
-import LoginBtn from "../../components/CustomButton/CustomButton";
+// import LoginBtn from "../../components/CustomButton/CustomButton";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/AuthAction";
 
 const Login = ({ login, isAuthenticated }, ...props) => {
   useEffect(() => {
-    if (isAuthenticated) {
+    if (localStorage.token) {
       history.push("/admin");
-      window.href = "/admin";
+      // window.href = "/admin";
       console.log("ddffssd");
     }
 
