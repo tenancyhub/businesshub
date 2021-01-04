@@ -1,26 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 import LoginBtn from "../../components/CustomButton/CustomButton";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../actions/AuthAction";
 
-import axios from "axios";
-// import util from "../../utils/BaseUrl";
+const Login = ({ login, isAuthenticated }, ...props) => {
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/admin");
+      window.href = "/admin";
+      console.log("ddffssd");
+    }
 
-const Login = (props) => {
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     props.history.push("/");
-  //   }
+    // if (error === "Invalid Credentials") {
+    //   setAlert(error, "danger");
+    //   clearError();
+    // }
+    // eslint-disable-next-line
+  }, [isAuthenticated, props.history]);
 
-  //   if (error === "Invalid Credentials") {
-  //     setAlert(error, "danger");
-  //     clearError();
-  //   }
-  //   // eslint-disable-next-line
-  // }, [error, isAuthenticated, props.history]);
-
-  // const history = useHistory();
+  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -32,24 +33,7 @@ const Login = (props) => {
     e.preventDefault();
     console.log("see mrere");
     const { email, password } = user;
-
-    const config = {
-      headers: {
-        "content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.post(
-        `https://fathomless-harbor-02544.herokuapp.com/login`,
-        { email, password },
-        config
-      );
-      window.localStorage.setItem("token_id", res.data.token);
-      // history.push("/admin");
-      window.location.href = "/admin";
-    } catch (err) {
-      console.log(err);
-    }
+    login({ email, password });
   };
 
   const onChange = (e) => {
@@ -102,13 +86,14 @@ const Login = (props) => {
               />
             </div>
 
-            <LoginBtn
+            <FormInput
               onClick={onSubmit}
-              style={{ width: "100%" }}
+              style={{ width: "100%", color: "black", background: "grey" }}
               type="submit"
-            >
-              Login
-            </LoginBtn>
+              value="Login"
+            />
+            {/* Login */}
+            {/* </FormInput> */}
 
             <small
               style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}
@@ -122,5 +107,8 @@ const Login = (props) => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  authState: state.isAuthenticated,
+});
 
-export default Login;
+export default connect(mapStateToProps, { login })(Login);

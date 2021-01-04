@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Login from "../../Pages/Login-Modal/Login";
 import SignUpButton from "../CustomButton/CustomButton";
-// import ProductContext from "../../Context/ProductItems/ProductContext";
+import { connect } from "react-redux";
 import "./Navbar.css";
 
-const NavBar = ({ isActive, isUser }) => {
+const NavBar = ({ isUser, isAuthenticated }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
 
@@ -13,7 +13,15 @@ const NavBar = ({ isActive, isUser }) => {
 
   // const { cart } = productContext;
   // const cartLength = JSON.parse(window.localStorage.getItem("inCart"));
-
+  // const isLogggedIn =(
+  //   <Fragment>
+  //     <li className="nav-item">
+  //               <Link className="nav-link" to="/">
+  //                 {isActive ? "Log out" : <Login />}
+  //               </Link>
+  //             </li>
+  //   </Fragment>
+  // )
   const toggleNav = () => {
     setShowNav(!showNav);
   };
@@ -36,12 +44,17 @@ const NavBar = ({ isActive, isUser }) => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/">
-                {isActive ? "Log out" : <Login />}
+                {isAuthenticated ? "Log out" : <Login />}
               </Link>
             </li>
+            {/* <li className="nav-item">
+              <Link className="nav-link" to="/">
+                {isAuthenticated && `Hello ${firstName}`}
+              </Link>
+            </li> */}
 
-            <li className="nav-item">
-              {!isActive && (
+            {!isAuthenticated && (
+              <li className="nav-item">
                 <SignUpButton
                   onClick={() => {
                     history.push(`/register`);
@@ -51,8 +64,8 @@ const NavBar = ({ isActive, isUser }) => {
                 >
                   Sell on Tenancy hub
                 </SignUpButton>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </div>
         <span className="nav-item mr-auto" style={{ position: "relative" }}>
@@ -82,5 +95,9 @@ const NavBar = ({ isActive, isUser }) => {
     </nav>
   );
 };
+const mapStateToProps = (state) => ({
+  isLogin: state.isAuthenticated,
+  user: state.user,
+});
 
-export default NavBar;
+export default connect(mapStateToProps)(NavBar);

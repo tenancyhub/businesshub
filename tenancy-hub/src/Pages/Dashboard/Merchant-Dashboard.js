@@ -32,6 +32,9 @@ const MerchantDashboard = () => {
         <NavLink to="/customers" activeStyle={activeStyle}>
           <span className="fas fa-user">{""}</span> Customers{" "}
         </NavLink>
+        <NavLink to="/shop" activeStyle={activeStyle}>
+          <span className="fas fa-store">{""}</span> Online-Store{" "}
+        </NavLink>
         <NavLink to="/setting" activeStyle={activeStyle}>
           <span className="fas fa-user-cog">{""}</span> Setting{" "}
         </NavLink>
