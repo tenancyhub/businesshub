@@ -83,7 +83,8 @@ const AddFormProduct = () => {
   };
 
   return (
-    <div className="container product-form">
+    <div className=" product-form">
+      {/* <SideBar /> */}
       <form className="contactForm" onSubmit={onSubmit}>
         <div className="">
           <span

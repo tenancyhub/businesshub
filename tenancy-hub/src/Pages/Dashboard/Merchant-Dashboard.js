@@ -18,7 +18,7 @@ const MerchantDashboard = () => {
     setSidebar(!sidebar);
   };
   return (
-    <div className="container-fluid">
+    <div className="wrapper">
       <div className={`${sidebar ? "sidebar" : "sidebar-show"} `}>
         <span onClick={toggleSide} className="closebtn">
           ☰

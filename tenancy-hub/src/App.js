@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import PrivateRoute from "./components/routing/PrivateRoute";
 import AddFormProduct from "./Pages/AddProductForm/AddFormProduct";
 import Carts from "./Pages/Cart/Carts";
+import VerifyMercchant from "./Pages/VerifyAccount/Verify-Merchant";
 const App = () => {
   return (
     <Provider store={store}>
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/Login" component={Login} />
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
+          <Route path="/verify-merchant" component={VerifyMercchant} />
           <Route path="/add-product" component={AddFormProduct} />
           <Route path="/admin" component={MerchantDashboard} />
           <Route path="/register" component={SignUp} />

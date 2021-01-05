@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { logOut } from "../../actions/AuthAction";
 import "./Navbar.css";
 
-const NavBar = ({ cart, LogOut }) => {
+const NavBar = ({ cart, logOut }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
 
@@ -28,10 +28,10 @@ const NavBar = ({ cart, LogOut }) => {
   const toggleNav = () => {
     setShowNav(!showNav);
   };
-  const onlogOut = () => {
-    console.log("ljhj");
-    logOut();
-  };
+  // const onlogOut = async () => {
+  //   console.log("ljhj");
+  //   logOut();
+  // };
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top navbar-light">
@@ -50,13 +50,21 @@ const NavBar = ({ cart, LogOut }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                {localStorage.token ? (
-                  <span onClick={onlogOut}>Log out</span>
-                ) : (
-                  "Login"
-                )}
-              </Link>
+              {localStorage.token ? (
+                <Link className="nav-link" to="/">
+                  <span
+                    onClick={() => {
+                      logOut();
+                    }}
+                  >
+                    Log out
+                  </span>
+                </Link>
+              ) : (
+                <Link className="nav-link" to="/login">
+                  <span>Login</span>
+                </Link>
+              )}
             </li>
             {/* <li className="nav-item">
               <Link className="nav-link" to="/">

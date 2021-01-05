@@ -1,3 +1,8 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
 .sidebar {
   height: 100%;
   width: 250px;
@@ -61,7 +66,7 @@
 #main {
   transition: margin-left 0.5s;
   padding: 16px;
-  width: auto;
+  width: 100%;
   margin-left: 250px;
 }
 
@@ -78,6 +83,9 @@
   .sidebar {
     display: none;
   }
+  /* .wrapper {
+    grid-template-columns: 0px 500px;
+  } */
   /* #main {
     margin-left: 0px;
   } */

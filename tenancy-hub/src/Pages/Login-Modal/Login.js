@@ -8,7 +8,7 @@ import { login } from "../../actions/AuthAction";
 import "./login.css";
 // import { validateForm } from "../../utils/Form-Validator";
 
-const Login = ({ login, isAuthenticated }, ...props) => {
+const Login = ({ login, isAuthenticated, error }, ...props) => {
   useEffect(() => {
     if (localStorage.token) {
       history.push("/admin");
@@ -53,10 +53,8 @@ const Login = ({ login, isAuthenticated }, ...props) => {
     e.preventDefault();
     const { email, password } = user;
     if (validateForm()) {
-      // const { email, password } = user;
       login({ email, password });
     }
-    console.log("see mrere");
   };
 
   const onChange = (e) => {
@@ -128,9 +126,12 @@ const Login = ({ login, isAuthenticated }, ...props) => {
             type="submit"
             value="Login"
           />
-          {/* Login */}
-          {/* </FormInput> */}
-
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {error}
+          </span>
           <small style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}>
             This site is protected by reCAPTCHA and the Google Privacy Policy
             and Terms of Service apply.
@@ -144,6 +145,7 @@ const Login = ({ login, isAuthenticated }, ...props) => {
 };
 const mapStateToProps = (state) => ({
   authState: state.Auth.isAuthenticated,
+  error: state.Auth.error,
 });
 
 export default connect(mapStateToProps, { login })(Login);
