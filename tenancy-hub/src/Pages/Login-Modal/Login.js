@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 // import LoginBtn from "../../components/CustomButton/CustomButton";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/AuthAction";
+import "./login.css";
 // import { validateForm } from "../../utils/Form-Validator";
 
 const Login = ({ login, isAuthenticated }, ...props) => {
@@ -29,7 +30,7 @@ const Login = ({ login, isAuthenticated }, ...props) => {
   });
   const [errors, setError] = useState({});
 
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
 
   const validateForm = () => {
     // let formField = user.formField;
@@ -66,10 +67,11 @@ const Login = ({ login, isAuthenticated }, ...props) => {
   };
 
   return (
-    <div className="form-container">
-      <span onClick={() => setShow(true)}>Login</span>
+    <div className="container">
+      <div className="place-form">
+        {/* <span onClick={() => setShow(true)}>Login</span> */}
 
-      <Modal
+        {/* <Modal
         // {...props}
         show={show}
         onHide={() => setShow(false)}
@@ -83,66 +85,65 @@ const Login = ({ login, isAuthenticated }, ...props) => {
             </h1>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={onSubmit}>
-            <div className="formGroup">
-              <label htmlFor="email">Email</label>
-              <span
-                className="d-block"
-                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-              >
-                {errors["email"]}
-              </span>
-              <FormInput
-                type="email"
-                name="email"
-                // value={email}
-                placeholder="Enter email Address"
-                onChange={onChange}
-                required
-              />
-            </div>
-            <div className="formGroup">
-              <label htmlFor="password">Password</label>
-              <span
-                className="d-block"
-                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-              >
-                {errors["password"]}
-              </span>
-              <FormInput
-                type="password"
-                name="password"
-                // value={password}
-                placeholder="Enter password"
-                onChange={onChange}
-                required
-              />
-            </div>
+        <Modal.Body> */}
+        <form onSubmit={onSubmit}>
+          {/* <div className="formGroup"> */}
+          <label htmlFor="email">Email</label>
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["email"]}
+          </span>
+          <FormInput
+            type="email"
+            name="email"
+            // value={email}
+            placeholder="Enter email Address"
+            onChange={onChange}
+            required
+          />
+          {/* </div> */}
+          {/* <div className="formGroup"> */}
+          <label htmlFor="password">Password</label>
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["password"]}
+          </span>
+          <FormInput
+            type="password"
+            name="password"
+            // value={password}
+            placeholder="Enter password"
+            onChange={onChange}
+            required
+          />
+          {/* </div> */}
 
-            <FormInput
-              onClick={onSubmit}
-              style={{ width: "100%", color: "black", background: "grey" }}
-              type="submit"
-              value="Login"
-            />
-            {/* Login */}
-            {/* </FormInput> */}
+          <FormInput
+            onClick={onSubmit}
+            style={{ width: "100%", color: "black", background: "grey" }}
+            type="submit"
+            value="Login"
+          />
+          {/* Login */}
+          {/* </FormInput> */}
 
-            <small
-              style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}
-            >
-              This site is protected by reCAPTCHA and the Google Privacy Policy
-              and Terms of Service apply.
-            </small>
-          </form>
-        </Modal.Body>
-      </Modal>
+          <small style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}>
+            This site is protected by reCAPTCHA and the Google Privacy Policy
+            and Terms of Service apply.
+          </small>
+        </form>
+        {/* </Modal.Body>
+      </Modal> */}
+      </div>
     </div>
   );
 };
 const mapStateToProps = (state) => ({
-  authState: state.isAuthenticated,
+  authState: state.Auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { login })(Login);

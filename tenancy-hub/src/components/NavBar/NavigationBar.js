@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Login from "../../Pages/Login-Modal/Login";
+// import Login from "../../Pages/Login-Modal/Login";
 import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
 import { logOut } from "../../actions/AuthAction";
@@ -50,11 +50,11 @@ const NavBar = ({ cart, LogOut }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to="/login">
                 {localStorage.token ? (
                   <span onClick={onlogOut}>Log out</span>
                 ) : (
-                  <Login />
+                  "Login"
                 )}
               </Link>
             </li>
