@@ -16,6 +16,13 @@ import "react-toastify/dist/ReactToastify.css";
 import AddFormProduct from "./Pages/AddProductForm/AddFormProduct";
 import Carts from "./Pages/Cart/Carts";
 import VerifyMercchant from "./Pages/VerifyAccount/Verify-Merchant";
+import PayWithRaveBtn from "./components/RAveGateway/PayWithRaveBtn";
+import setAuthToken from "./utils/SetAuthToken";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
   return (
     <Provider store={store}>
@@ -27,6 +34,7 @@ const App = () => {
           <Route path="/Login" component={Login} />
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
+          <Route path="/payment" component={PayWithRaveBtn} />
           <Route path="/verify-merchant" component={VerifyMercchant} />
           <Route path="/add-product" component={AddFormProduct} />
           <Route path="/admin" component={MerchantDashboard} />

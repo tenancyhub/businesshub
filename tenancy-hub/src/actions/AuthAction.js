@@ -18,7 +18,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get(`${util}login`);
     dispatch({ type: USER_LOADED, payload: res.data });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
@@ -34,17 +34,13 @@ export const register = (formData) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post(
-      `${util.API_BASE_URL}register-merchant`,
-      formData,
-      config
-    );
+    const res = await axios.post(`${util}register-merchant`, formData, config);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
 
-    // loadUser();
+    loadUser();
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
@@ -68,7 +64,7 @@ export const login = (formData) => async (dispatch) => {
       payload: res.data,
     });
 
-    // loadUser();
+    loadUser();
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,

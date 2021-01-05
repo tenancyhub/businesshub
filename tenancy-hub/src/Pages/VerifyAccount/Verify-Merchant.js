@@ -3,12 +3,15 @@ import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
 // import LoginBtn from "../../components/CustomButton/CustomButton";
 import { useHistory } from "react-router-dom";
-import { getBanks, validateDetails } from "../../Services/VerifyMerchantUtil";
+import {
+  getBanks,
+  validateDetails,
+  mapAccountToMerchant,
+} from "../../Services/VerifyMerchantUtil";
 // import { connect } from "react-redux";
 // import { login } from "../../actions/AuthAction";
 
 import "./VerifyAccount.css";
-import axios from "axios";
 
 const VerifyMercchant = (props) => {
   useEffect(() => {
@@ -25,6 +28,7 @@ const VerifyMercchant = (props) => {
   });
   const [errors, setError] = useState({});
   const [bank, setBank] = useState([]);
+  const [mapaccount, setMapAccount] = useState(false);
   const [checkdetail, setCheckdetail] = useState({});
   const [show, setShow] = useState(false);
   const onCloseModal = () => {
@@ -60,15 +64,10 @@ const VerifyMercchant = (props) => {
   };
   const onValidate = async (e) => {
     e.preventDefault();
-    const { accountNumber, id } = user;
     if (validateForm()) {
-      console.log(accountNumber, id);
-      // validateDetails(setCheckdetail, user);
-      // try {
-      //   await axios.put
-      // } catch (error) {
+      mapAccountToMerchant(setMapAccount, user);
 
-      // }
+      history.push("/admin");
     }
     console.log("see mrere");
   };
@@ -99,7 +98,7 @@ const VerifyMercchant = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={mapaccount ? onSubmit : onValidate}>
             {/* <div className="formGroup"> */}
             <label htmlFor="bank-detail">Bank Account</label>
             <span
@@ -150,7 +149,7 @@ const VerifyMercchant = (props) => {
             )}
             {checkdetail.account_name && (
               <FormInput
-                onClick={onSubmit}
+                onClick={onValidate}
                 style={{ width: "100%", color: "black", background: "grey" }}
                 type="submit"
                 value="Validate"

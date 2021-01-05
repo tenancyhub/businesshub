@@ -3,11 +3,23 @@ import { NavLink } from "react-router-dom";
 import AddFormProduct from "../AddProductForm/AddFormProduct";
 import "./Merchant.css";
 import Notification from "./Notification/Notification";
+import { connect } from "react-redux";
+import { loadUser } from "../../actions/AuthAction";
 
-const MerchantDashboard = () => {
+const MerchantDashboard = ({ user, loadUser }, props) => {
   const activeStyle = {
     // background: "rgba(140, 145, 150, 1)",
   };
+  // useEffect(() => {
+  //   loadUser();
+  //   if (user.account_number === null) {
+  //     props.history("/verify-merchant");
+  //   } else if (user.token === 0) {
+  //     props.history("/payment");
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
+
   const [sidebar, setSidebar] = useState("true");
   const [veiw, setVeiw] = useState("false");
 
@@ -67,5 +79,8 @@ const MerchantDashboard = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  user: state.Auth.user,
+});
 
-export default MerchantDashboard;
+export default connect(mapStateToProps, { loadUser })(MerchantDashboard);

@@ -55,13 +55,14 @@ export const mapAccountToMerchant = async (callBackFunction, data) => {
   };
   try {
     const res = await axios.get(
-      `${API_BASE_URL}merchant/validate-account/${data.accountNumber}/${data.id}`,
+      `${API_BASE_URL}merchant/map-account-to-merchant/${data.accountNumber}/${data.id}`,
       config
     );
 
     // console.log(res.data);
-    // status(res.data.status);
-    callBackFunction(res.data);
+    if (res.data.status === 200) {
+      callBackFunction("true");
+    }
   } catch (error) {
     // console.error(error.response.data.message);
     if (error.response.data.status === 422) {
