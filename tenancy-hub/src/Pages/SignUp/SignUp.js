@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
 import Register from "../../components/CustomButton/CustomButton";
 // import { connect } from "react-redux";
@@ -8,7 +8,21 @@ import util from "../../utils/util";
 
 import "./SignUp.css";
 
-const SignUp = () => {
+const SignUp = (props) => {
+  useEffect(() => {
+    if (localStorage.token) {
+      props.history.push("/admin");
+      // window.href = "/admin";
+      console.log("ddffssd");
+    }
+
+    // if (error === "Invalid Credentials") {
+    //   setAlert(error, "danger");
+    //   clearError();
+    // }
+    // eslint-disable-next-line
+  }, [localStorage.token, props.history]);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -21,6 +35,7 @@ const SignUp = () => {
     storeName: "",
     // storeUrl: "",
   });
+  const [errors, setErrors] = useState({});
   const {
     lastName,
     firstName,
@@ -31,51 +46,121 @@ const SignUp = () => {
     address,
     // storeUrl,
   } = user;
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     // console.log(user);
   };
 
+  const validateForm = () => {
+    let errors = {};
+    let formIsValid = true;
+    if (!user.firstName) {
+      formIsValid = false;
+      errors["firstName"] = "*Cannot be empty";
+    }
+    if (typeof user.firstName !== "undefined") {
+      if (!user.firstName.match(/^[a-zA-Z ]*$/)) {
+        formIsValid = false;
+        errors["firstName"] = "*Please enter alphabet characters only.";
+      }
+    }
+    if (typeof user.lastName !== "undefined") {
+      if (!user.lastName.match(/^[a-zA-Z ]*$/)) {
+        formIsValid = false;
+        errors["lastName"] = "*Please enter alphabet characters only.";
+      }
+    }
+    if (!user.lastName) {
+      formIsValid = false;
+      errors["lastName"] = "Cannot be empty";
+    }
+    if (!user.email) {
+      formIsValid = false;
+      errors["email"] = "Cannot be empty";
+    }
+    if (!user.password) {
+      formIsValid = false;
+      errors["password"] = "Cannot be empty";
+    }
+    if (!user.phoneNumber) {
+      formIsValid = false;
+      errors["phoneNumber"] = "*Please enter your mobile no.";
+    }
+
+    if (typeof user.phoneNumber !== "undefined") {
+      if (!user.phoneNumber.match(/^[0-9]{11}$/)) {
+        formIsValid = false;
+        errors["phoneNumber"] = "*Please enter valid mobile no.";
+      }
+    }
+    if (!user.address) {
+      formIsValid = false;
+      errors["address"] = "*Cannot be empty";
+    }
+    if (!user.storeName) {
+      formIsValid = false;
+      errors["storeName"] = "*Cannot be empty";
+    }
+    //   //   if (!user.street) {
+    //   //     formIsValid = false;
+    //   //     errors["street"] = "Cannot be empty";
+    //   //   }
+    //   //   if (!user.city) {
+    //   //     formIsValid = false;
+    //   //     errors["city"] = "*Cannot be empty";
+    //   //   }
+    //   //   if (!user.state) {
+    //   //     formIsValid = false;
+    //   //     errors["state"] = "*Cannot be empty";
+    //   //   }
+    setErrors(errors);
+    return formIsValid;
+  };
+
   const onSubmit = async (event) => {
     // e.peventDefault();
     event.preventDefault();
-
-    const config = {
-      headers: {
-        "content-Type": "application/json",
-      },
-    };
-    try {
-      await axios.post(
-        `${util.API_BASE_URL}register-merchant`,
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-          phoneNumber,
-          storeName,
-          address,
+    if (validateForm()) {
+      const config = {
+        headers: {
+          "content-Type": "application/json",
         },
-        config
-      );
-      alert("registered");
-    } catch (err) {
-      if (err.response.data.status === 422) {
-        alert(err.response.data.message);
+      };
+      try {
+        await axios.post(
+          `${util}register-merchant`,
+          {
+            firstName,
+            lastName,
+            email,
+            password,
+            phoneNumber,
+            storeName,
+            address,
+          },
+          config
+        );
+        props.history.push("/admin");
+        // window.href = "/admin";
+        alert("registered");
+      } catch (err) {
+        if (err.response.data.status === 422) {
+          alert(err.response.data.message);
+        }
       }
     }
-    setUser({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      address: "",
-      description: "",
-      storeName: "",
-      storeUrl: "",
-    });
+    // setUser({
+    //   firstname: "",
+    //   lastname: "",
+    //   email: "",
+    //   password: "",
+    //   phoneNumber: "",
+    //   address: "",
+    //   description: "",
+    //   storeName: "",
+    //   storeUrl: "",
+    // });
   };
 
   return (
@@ -87,10 +172,15 @@ const SignUp = () => {
         <form className="contactForm" onSubmit={onSubmit}>
           {/* <div className="d-flex"> */}
           <div className="">
-            {/* <label>Firstname</label> */}
+            <label>Firstname</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["firstName"]}
+            </span>
             <FormInput
               type="text"
-              label="Fisrstname"
               name="firstName"
               // value={firstname}
               onChange={handleChange}
@@ -99,6 +189,12 @@ const SignUp = () => {
           </div>
           <div>
             <label>Lastname</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["lastName"]}
+            </span>
             <FormInput
               type="text"
               // value={lastname}
@@ -110,6 +206,12 @@ const SignUp = () => {
           {/* </div> */}
           <div>
             <label>Email</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["email"]}
+            </span>
             <FormInput
               type="email"
               //   value={email}
@@ -121,6 +223,12 @@ const SignUp = () => {
           {/* <div className="d-flex"> */}
           <div className="">
             <label>Password</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["password"]}
+            </span>
             <FormInput
               type="password"
               // value={password}
@@ -131,6 +239,12 @@ const SignUp = () => {
           </div>
           <div className="">
             <label>Confirm password</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["confirmPassword"]}
+            </span>
             <FormInput
               type="password"
               // value={confirmPassword}
@@ -142,6 +256,12 @@ const SignUp = () => {
           {/* </div> */}
           <div>
             <label>Store Name</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["storeName"]}
+            </span>
             <FormInput
               type="text"
               //   value={storeName}
@@ -152,6 +272,12 @@ const SignUp = () => {
           </div>
           <div>
             <label>Phone </label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["phoneNumber"]}
+            </span>
             <FormInput
               type="text"
               //   value={storeUrl}
@@ -174,6 +300,12 @@ const SignUp = () => {
           </div>
           <div>
             <label>Address</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["address"]}
+            </span>
             <FormInput
               type="text"
               onChange={handleChange}

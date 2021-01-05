@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Login from "../../Pages/Login-Modal/Login";
+// import Login from "../../Pages/Login-Modal/Login";
 import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
+import { logOut } from "../../actions/AuthAction";
 import "./Navbar.css";
 
-const NavBar = ({ isUser, isAuthenticated }) => {
+const NavBar = ({ cart, logOut }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
 
-  // const productContext = useContext(ProductContext);
+  useEffect(() => {
+    if (localStorage.token) {
+      localStorage.setItem("isloggedIn", "true");
+    }
+  }, []);
 
-  // const { cart } = productContext;
-  // const cartLength = JSON.parse(window.localStorage.getItem("inCart"));
   // const isLogggedIn =(
   //   <Fragment>
   //     <li className="nav-item">
@@ -25,9 +28,13 @@ const NavBar = ({ isUser, isAuthenticated }) => {
   const toggleNav = () => {
     setShowNav(!showNav);
   };
+  // const onlogOut = async () => {
+  //   console.log("ljhj");
+  //   logOut();
+  // };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light">
+    <nav className="navbar navbar-expand-lg fixed-top navbar-light">
       <div className="container">
         <Link className="navbar-brand" to="/">
           <p className="logo">
@@ -43,9 +50,21 @@ const NavBar = ({ isUser, isAuthenticated }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
-                {isAuthenticated ? "Log out" : <Login />}
-              </Link>
+              {localStorage.token ? (
+                <Link className="nav-link" to="/">
+                  <span
+                    onClick={() => {
+                      logOut();
+                    }}
+                  >
+                    Log out
+                  </span>
+                </Link>
+              ) : (
+                <Link className="nav-link" to="/login">
+                  <span>Login</span>
+                </Link>
+              )}
             </li>
             {/* <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -53,7 +72,7 @@ const NavBar = ({ isUser, isAuthenticated }) => {
               </Link>
             </li> */}
 
-            {!isAuthenticated && (
+            {!localStorage.token && (
               <li className="nav-item">
                 <SignUpButton
                   onClick={() => {
@@ -68,22 +87,22 @@ const NavBar = ({ isUser, isAuthenticated }) => {
             )}
           </ul>
         </div>
-        <span className="nav-item mr-auto" style={{ position: "relative" }}>
-          {isUser && (
+        {localStorage.token && (
+          <span className="nav-item mr-auto" style={{ position: "relative" }}>
             <Link className="nav-link" to="/cart">
               <i className="fas fa-shopping-cart fa-2x"></i>
 
-              {/* {cart && (
-              <p
-                className="badge badge-danger"
-                style={{ position: "absolute", top: "-2px", right: "35PX" }}
-              >
-                {cart.length}
-              </p>
-            )} */}
+              {cart && (
+                <p
+                  className="badge badge-danger"
+                  style={{ position: "absolute", top: "-2px", right: "35PX" }}
+                >
+                  {cart.length}
+                </p>
+              )}
             </Link>
-          )}
-        </span>
+          </span>
+        )}
         <button
           className="navbar-toggler"
           type="button"
@@ -96,8 +115,9 @@ const NavBar = ({ isUser, isAuthenticated }) => {
   );
 };
 const mapStateToProps = (state) => ({
-  isLogin: state.isAuthenticated,
-  user: state.user,
+  isLogin: state.Auth.isAuthenticated,
+  user: state.Auth.user,
+  cart: state.product.cart,
 });
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, { logOut })(NavBar);

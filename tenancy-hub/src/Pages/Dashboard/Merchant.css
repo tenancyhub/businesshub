@@ -1,9 +1,14 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
 .sidebar {
   height: 100%;
   width: 250px;
   position: fixed;
   z-index: 1;
-  /* top: 0; */
+  top: 12%;
   left: 0;
   /* background: rgba(140, 145, 150, 1); */
   background: rgba(186, 191, 195, 1);
@@ -61,7 +66,7 @@
 #main {
   transition: margin-left 0.5s;
   padding: 16px;
-  width: auto;
+  width: 100%;
   margin-left: 250px;
 }
 
@@ -78,7 +83,10 @@
   .sidebar {
     display: none;
   }
-  #main {
+  /* .wrapper {
+    grid-template-columns: 0px 500px;
+  } */
+  /* #main {
     margin-left: 0px;
-  }
+  } */
 }

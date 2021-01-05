@@ -18,7 +18,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get(`${util}login`);
     dispatch({ type: USER_LOADED, payload: res.data });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
@@ -27,27 +27,24 @@ export const loadUser = () => async (dispatch) => {
 //Register user
 
 export const register = (formData) => async (dispatch) => {
+  console.log("rerere");
   const config = {
     headers: {
       "content-Type": "application/json",
     },
   };
   try {
-    const res = await axios.post(
-      `${util.API_BASE_URL}register-merchant`,
-      formData,
-      config
-    );
+    const res = await axios.post(`${util}register-merchant`, formData, config);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
 
-    // loadUser();
+    loadUser();
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
-      payload: err,
+      payload: err.response.data,
     });
     // console.log(err.response.data.msg);
   }
@@ -61,17 +58,17 @@ export const login = (formData) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post(`${util.API_BASE_URL}login`, formData, config);
+    const res = await axios.post(`${util}login`, formData, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
 
-    // loadUser();
+    loadUser();
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
-      payload: err,
+      payload: err.response.data.error_description,
     });
     // console.log(err.response.data.msg);
   }
