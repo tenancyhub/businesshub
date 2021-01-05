@@ -21,7 +21,7 @@ const Login = ({ login, isAuthenticated }, ...props) => {
     //   clearError();
     // }
     // eslint-disable-next-line
-  }, [isAuthenticated, props.history]);
+  }, [localStorage.token, props.history]);
 
   const history = useHistory();
   const [user, setUser] = useState({
