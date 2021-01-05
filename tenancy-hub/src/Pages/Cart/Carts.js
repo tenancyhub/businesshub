@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import PayWithRaveBtn from "../../components/RaveGateway/PayWithRaveBtn";
+import PayWithRaveBtn from "../../components/RAveGateway/PayWithRaveBtn";
 import {
   deleteItem,
   decreaseCart,

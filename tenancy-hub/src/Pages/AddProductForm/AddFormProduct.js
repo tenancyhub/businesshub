@@ -6,49 +6,78 @@ import util from "../../utils/util";
 import "./addProduct.css";
 
 const AddFormProduct = () => {
-  const [user, setUser] = useState({
+  const [product, setProduct] = useState({
     itemName: "",
     price: "",
     image: "",
-
     description: "",
   });
-  const { price, itemName, image, description } = user;
+  const [errors, setErrors] = useState({});
+  const { price, itemName, image, description } = product;
+
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-    // console.log(user);
+    setProduct({ ...product, [e.target.name]: e.target.value });
+    // console.log(product);
+  };
+  const validateForm = () => {
+    console.log("dsdsdsdfe");
+    let errors = {};
+    let formIsValid = true;
+
+    if (!product.itemName) {
+      formIsValid = false;
+      return (errors["itemName"] = "Cannot be empty");
+    }
+    if (!product.description) {
+      formIsValid = false;
+      return (errors["description"] = "Cannot be empty");
+    }
+    if (!product.image) {
+      formIsValid = false;
+      return (errors["image"] = "Please an image for item ");
+    }
+    if (!product.price) {
+      formIsValid = false;
+      return (errors["price"] = "Cannot be empty");
+    }
+    // if (!product.currencyType) {
+    //   formIsValid = false;
+    //   return (errors["currencyType"] = "Cannot be empty");
+    // }
+    setErrors(errors);
+    return formIsValid;
   };
 
   const onSubmit = async (event) => {
-    // e.peventDefault();
     event.preventDefault();
-
-    const config = {
-      headers: {
-        "content-Type": "application/json",
-      },
-    };
-    try {
-      await axios.post(
-        `${util.API_BASE_URL}register-merchant`,
-        {
-          itemName,
-          price,
-          image,
-          description,
+    if (!validateForm()) {
+      const config = {
+        headers: {
+          "content-Type": "application/json",
         },
-        config
-      );
-      alert("Added");
-      // setUser({
-      //  itemName: "",
-      //   price: "",
-      //   image: "",
-      //   description: "",
-      // });
-    } catch (err) {
-      if (err.response.data.status === 422) {
-        alert(err.response.data.message);
+      };
+      try {
+        await axios.post(
+          `${util}merchant`,
+          {
+            itemName,
+            price,
+            image,
+            description,
+          },
+          config
+        );
+        alert("Added");
+        // setproduct({
+        //  itemName: "",
+        //   price: "",
+        //   image: "",
+        //   description: "",
+        // });
+      } catch (err) {
+        if (err.response.data.status === 422) {
+          alert(err.response.data.message);
+        }
       }
     }
   };
@@ -57,6 +86,12 @@ const AddFormProduct = () => {
     <div className="container product-form">
       <form className="contactForm" onSubmit={onSubmit}>
         <div className="">
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["itemName"]}
+          </span>
           <FormInput
             type="text"
             label="Product Name"
@@ -68,6 +103,12 @@ const AddFormProduct = () => {
         </div>
         <div>
           <label>Price</label>
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["price"]}
+          </span>
           <FormInput
             type="text"
             // value={price}
@@ -79,6 +120,12 @@ const AddFormProduct = () => {
         {/* </div> */}
         <div>
           <label>Item Image</label>
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["image"]}
+          </span>
           <FormInput
             type="file"
             //   value={image}
@@ -90,6 +137,12 @@ const AddFormProduct = () => {
 
         <div>
           <label>Description</label>
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["description"]}
+          </span>
           <textarea
             className="group mb-4"
             name="description"

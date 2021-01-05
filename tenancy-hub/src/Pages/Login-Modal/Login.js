@@ -5,6 +5,7 @@ import FormInput from "../../components/Form-input/form-input.component";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/AuthAction";
+// import { validateForm } from "../../utils/Form-Validator";
 
 const Login = ({ login, isAuthenticated }, ...props) => {
   useEffect(() => {
@@ -26,14 +27,35 @@ const Login = ({ login, isAuthenticated }, ...props) => {
     email: "",
     password: "",
   });
+  const [errors, setError] = useState({});
 
   const [show, setShow] = useState(false);
 
+  const validateForm = () => {
+    // let formField = user.formField;
+    let errors = {};
+    let formIsValid = true;
+
+    if (!user.email) {
+      formIsValid = false;
+      errors["email"] = "Cannot be empty";
+    }
+    if (!user.password) {
+      formIsValid = false;
+      errors["password"] = "Cannot be empty";
+    }
+    setError(errors);
+    return formIsValid;
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("see mrere");
     const { email, password } = user;
-    login({ email, password });
+    if (validateForm()) {
+      // const { email, password } = user;
+      login({ email, password });
+    }
+    console.log("see mrere");
   };
 
   const onChange = (e) => {
@@ -48,7 +70,7 @@ const Login = ({ login, isAuthenticated }, ...props) => {
       <span onClick={() => setShow(true)}>Login</span>
 
       <Modal
-        {...props}
+        // {...props}
         show={show}
         onHide={() => setShow(false)}
         aria-labelledby="contained-modal-title-vcenter"
@@ -65,6 +87,12 @@ const Login = ({ login, isAuthenticated }, ...props) => {
           <form onSubmit={onSubmit}>
             <div className="formGroup">
               <label htmlFor="email">Email</label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["email"]}
+              </span>
               <FormInput
                 type="email"
                 name="email"
@@ -76,6 +104,12 @@ const Login = ({ login, isAuthenticated }, ...props) => {
             </div>
             <div className="formGroup">
               <label htmlFor="password">Password</label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["password"]}
+              </span>
               <FormInput
                 type="password"
                 name="password"

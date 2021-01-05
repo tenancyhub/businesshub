@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Login from "../../Pages/Login-Modal/Login";
 import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
+import { logOut } from "../../actions/AuthAction";
 import "./Navbar.css";
 
-const NavBar = ({ cart }) => {
+const NavBar = ({ cart, LogOut }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
 
-  // const productContext = useContext(ProductContext);
+  useEffect(() => {
+    if (localStorage.token) {
+      localStorage.setItem("isloggedIn", "true");
+    }
+  }, []);
 
-  // const { cart } = productContext;
-  // const cartLength = JSON.parse(window.localStorage.getItem("inCart"));
   // const isLogggedIn =(
   //   <Fragment>
   //     <li className="nav-item">
@@ -24,6 +27,10 @@ const NavBar = ({ cart }) => {
   // )
   const toggleNav = () => {
     setShowNav(!showNav);
+  };
+  const onlogOut = () => {
+    console.log("ljhj");
+    logOut();
   };
 
   return (
@@ -44,7 +51,11 @@ const NavBar = ({ cart }) => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/">
-                {localStorage.token ? "Log out" : <Login />}
+                {localStorage.token ? (
+                  <span onClick={onlogOut}>Log out</span>
+                ) : (
+                  <Login />
+                )}
               </Link>
             </li>
             {/* <li className="nav-item">
@@ -101,4 +112,4 @@ const mapStateToProps = (state) => ({
   cart: state.product.cart,
 });
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, { logOut })(NavBar);
