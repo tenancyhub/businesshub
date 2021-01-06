@@ -18,6 +18,9 @@ import Carts from "./Pages/Cart/Carts";
 import VerifyMercchant from "./Pages/VerifyAccount/Verify-Merchant";
 // import PayWithRaveBtn from "./components/RAveGateway/PayWithRaveBtn";
 import setAuthToken from "./utils/SetAuthToken";
+import PaymentPage from "./Pages/PAymentPage/PaymentPage";
+import CreateShop from "./Pages/CreateShop/CreateShop";
+import SidebarExample from "./Pages/Dashboard";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -32,11 +35,14 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/Login" component={Login} />
+          <Route path="/side" component={SidebarExample} />
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
+          <Route path="/registration-fee" component={PaymentPage} />
           {/* <Route path="/payment" component={PayWithRaveBtn} /> */}
           <Route path="/verify-merchant" component={VerifyMercchant} />
           <Route path="/add-product" component={AddFormProduct} />
+          <Route path="/create-shop" component={CreateShop} />
           <Route path="/admin" component={MerchantDashboard} />
           <Route path="/register" component={SignUp} />
           <Route component={ErrorPage} />

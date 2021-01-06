@@ -18,10 +18,12 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get(`${util}login`);
+    const res = await axios.get(`${util}merchant/my-info`);
     dispatch({ type: USER_LOADED, payload: res.data });
+    console.log(res.data);
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
+    // console.log({ type: AUTH_ERROR });
   }
 };
 //Register user

@@ -17,6 +17,7 @@ const initialState = {
   loading: true,
   error: null,
   user: null,
+  // merchantUser: null,
 };
 
 export default (state = initialState, action) => {

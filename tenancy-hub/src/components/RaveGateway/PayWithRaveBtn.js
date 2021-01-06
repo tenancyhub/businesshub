@@ -26,9 +26,9 @@ const PayWithRaveBtn = (props) => {
   //   this.close = this.close.bind(this);
   // }
 
-  const callback = (response) => {
-    console.log(response);
-  };
+  // const callback = (response) => {
+  //   console.log(response);
+  // };
 
   const close = () => {
     console.log("Payment closed");
@@ -50,8 +50,9 @@ const PayWithRaveBtn = (props) => {
         // customer_phone={config.phone}
         // amount={20}
         // currency="USD"
-        ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X" // RavePay PUBLIC KEY
-        callback={callback}
+        // email="shit2boy@live.com"
+        ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X"
+        callback={props.callback}
         onclose={close}
       />
     </div>
