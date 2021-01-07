@@ -61,7 +61,7 @@
 
 import React from "react";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
-import PayBtn from "../../components/CustomButton/CustomButton";
+import PayBtn from "../CustomButton/CustomButton";
 
 const PayWithRaveBtn = (props) => {
   const config = {

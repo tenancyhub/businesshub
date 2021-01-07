@@ -16,9 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 import AddFormProduct from "./Pages/AddProductForm/AddFormProduct";
 import Carts from "./Pages/Cart/Carts";
 import VerifyMercchant from "./Pages/VerifyAccount/Verify-Merchant";
-// import PayWithRaveBtn from "./components/RAveGateway/PayWithRaveBtn";
+import PayWithRaveBtn from "./components/RaveGateway/PayWithRaveBtn";
 import setAuthToken from "./utils/SetAuthToken";
-import PaymentPage from "./Pages/PAymentPage/PaymentPage";
+import PaymentPage from "./Pages/PaymentPage/PaymentPage";
 import CreateShop from "./Pages/CreateShop/CreateShop";
 import SidebarExample from "./Pages/Dashboard";
 
@@ -35,7 +35,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/Login" component={Login} />
-          <Route path="/side" component={SidebarExample} />
+          <Route path="/admin" component={SidebarExample} />
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
           <Route path="/registration-fee" component={PaymentPage} />
@@ -43,7 +43,7 @@ const App = () => {
           <Route path="/verify-merchant" component={VerifyMercchant} />
           <Route path="/add-product" component={AddFormProduct} />
           <Route path="/create-shop" component={CreateShop} />
-          <Route path="/admin" component={MerchantDashboard} />
+          {/* <Route path="/admin" component={MerchantDashboard} /> */}
           <Route path="/register" component={SignUp} />
           <Route component={ErrorPage} />
         </Switch>

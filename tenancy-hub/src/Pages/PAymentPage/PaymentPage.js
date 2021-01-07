@@ -36,9 +36,9 @@ const PaymentPage = ({ user, loadUser }, props) => {
     // eslint - disable - next - line;
   }, []);
 
-  const onSuccess = () => {
-    props.history("/admin");
-  };
+  // const onSuccess = () => {
+  //   props.history("/admin");
+  // };
 
   const [config, setConfig] = useState({});
   const [details, setDetails] = useState({});
