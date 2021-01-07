@@ -3,8 +3,7 @@ import FormInput from "../../components/Form-input/form-input.component";
 import AddProduct from "../../components/CustomButton/CustomButton";
 import { addProductUtil } from "../../Services/AddProductsUtil";
 // import { toast } from "react-toastify";
-// import axios from "axios";
-// import util from "../../utils/util";
+
 import "./addProduct.css";
 
 const AddFormProduct = (props) => {
@@ -97,34 +96,12 @@ const AddFormProduct = (props) => {
     if (validateForm()) {
       addProductUtil(setErrors, productPayload);
 
-      // const config = {
-      //   headers: {
-      //     "content-Type": "application/json",
-      //   },
-      // };
-      // try {
-      //   await axios.post(
-      //     `${util}`,
-      //     {
-      //       name,
-      //       amount,
-      //       file,
-      //       description,
-      //     },
-      //     config
-      //   );
-      //   alert("Added");
-      //   // setproduct({
-      //   //  name: "",
-      //   //   amount: "",
-      //   //   image: "",
-      //   //   description: "",
-      //   // });
-      // } catch (err) {
-      //   if (err.response.data.status === 422) {
-      //     alert(err.response.data.message);
-      //   }
-      // }
+      setProduct({
+        name: "",
+        amount: "",
+        image: "",
+        description: "",
+      });
     }
   };
 
