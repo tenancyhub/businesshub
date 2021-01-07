@@ -13,7 +13,7 @@
 .cart-btn:hover,
 :focus {
   /* background-color: #007bff; */
-  color: beige;
+  /* color: beige; */
   border-style: none;
   outline: none;
 }

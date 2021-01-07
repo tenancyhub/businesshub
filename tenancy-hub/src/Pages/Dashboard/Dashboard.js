@@ -1,64 +1,85 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AddFormProduct from "../AddProductForm/AddFormProduct";
 import CreateShop from "../CreateShop/CreateShop";
 import Notification from "./Notification/Notification";
 import Products from "../Products";
 import { NavLink } from "react-router-dom";
+import "./Merchant.css";
+import axios from "axios";
+import util from "../../utils/util";
+import setAuthToken from "../../utils/SetAuthToken";
 
-// Each logical "route" has two components, one for
-// the sidebar and one for the main area. We want to
-// render both of them in different places when the
-// path matches the current URL.
+const MerchantDashboard = (props) => {
+  const routes = [
+    {
+      path: "/admin",
+      exact: true,
+      sidebar: () => <div>home!</div>,
+      main: () => <h2>Home</h2>,
+    },
 
-// We are going to use this route config in 2
-// spots: once for the sidebar and once in the main
-// content section. All routes are in the same
-// order they would appear in a <Switch>.
-const routes = [
-  {
-    path: "/admin",
-    exact: true,
-    sidebar: () => <div>home!</div>,
-    main: () => <h2>Home</h2>,
-  },
+    {
+      path: "/admin/notification",
+      sidebar: () => <div>Notification</div>,
+      main: () => <Notification />,
+    },
+    {
+      path: "/admin/add-product",
+      sidebar: () => <div>Product</div>,
+      main: () => <AddFormProduct />,
+    },
+    {
+      path: "/admin/order",
+      sidebar: () => <div>Order</div>,
+      main: () => <h2>Order</h2>,
+    },
+    {
+      path: "/admin/create-shop",
+      sidebar: () => <div>Create Shop</div>,
+      main: () => <CreateShop shopAvailable={user.shops} />,
+    },
+    {
+      path: "/admin/shop",
+      sidebar: () => <div>Online Store</div>,
+      main: () => <Products stores={user.shops} />,
+    },
+    {
+      path: "/admin/settings",
+      sidebar: () => <div>Setting</div>,
+      main: () => <h2>Setting</h2>,
+    },
+  ];
 
-  {
-    path: "/notification",
-    sidebar: () => <div>Notification</div>,
-    main: () => <Notification />,
-  },
-  {
-    path: "/add-product",
-    sidebar: () => <div>Product</div>,
-    main: () => <AddFormProduct />,
-  },
-  {
-    path: "/order",
-    sidebar: () => <div>Order</div>,
-    main: () => <h2>Order</h2>,
-  },
-  {
-    path: "/create-shop",
-    sidebar: () => <div>Create Shop</div>,
-    main: () => <CreateShop />,
-  },
-  {
-    path: "/shop",
-    sidebar: () => <div>Online Store</div>,
-    main: () => <Products />,
-  },
-  {
-    path: "/settings",
-    sidebar: () => <div>Setting</div>,
-    main: () => <h2>Setting</h2>,
-  },
-];
-
-const SidebarExample = () => {
   const activeStyle = {
     background: "rgba(140, 145, 150, 1)",
   };
+
+  useEffect(() => {
+    // loadUser();
+
+    const ref = async () => {
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+      try {
+        const res = await axios.get(`${util}merchant/my-info`);
+        setUserDetails({ ...res.data });
+        console.log(res.data);
+        localStorage.setItem("email", res.data.user["email"]);
+        if (res.data.accountNumber === null) {
+          props.history.push("/verify-merchant");
+        } else if (!res.data.tokenPaid && res.data.accountNumber !== null) {
+          props.history.push("/registration-fee");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    ref();
+    // eslint - disable - next - line;
+  }, [props.history]);
+
   const [sidebar, setSidebar] = useState("true");
   const [user, setUserDetails] = useState({});
   const [veiw, setVeiw] = useState("false");
@@ -71,66 +92,50 @@ const SidebarExample = () => {
   };
   return (
     <Router>
-      <div className="container-fluid">
-        <div
-          className="sidebar"
-          style={{
-            padding: "10px",
-            width: "250px",
-            // background: "#f0f0f0",
-          }}
-        >
+      <div className="wrapper">
+        {/* <div className=""> */}
+        <div className="sidebar ">
+          <span onClick={toggleSide} className="closebtn">
+            ☰
+          </span>
           <NavLink to="/admin" activeStyle={activeStyle}>
             <span className="fas fa-home">{""}</span> Home{" "}
           </NavLink>
           <NavLink
-            to="/notification"
+            to="/admin/notification"
             onClick={toggleSideBar}
             activeStyle={activeStyle}
           >
             <span className="fas fa-envelope">{""}</span> Notification{" "}
           </NavLink>
           <NavLink
-            to="/add-product"
+            to="/admin/add-product"
             onClick={toggleSideBar}
             activeStyle={activeStyle}
           >
             <span className="fas fa-plus-square">{""}</span> Products{" "}
           </NavLink>
-          <NavLink to="/admin" activeStyle={activeStyle}>
+          <NavLink to="/admin/order" activeStyle={activeStyle}>
             <span className="fas fa-inbox">{""}</span> Orders{" "}
           </NavLink>
           {/* <NavLink to="/admin" activeStyle={activeStyle}>
           <span className="fas fa-user">{""}</span> Customers{" "}
         </NavLink> */}
-          <NavLink to="/create-shop" activeStyle={activeStyle}>
+          <NavLink to="/admin/create-shop" activeStyle={activeStyle}>
             <span className="fas fa-store">{""}</span> Create Shop{" "}
           </NavLink>
-          <NavLink to="/shop" activeStyle={activeStyle}>
+          <NavLink to="/admin/shop" activeStyle={activeStyle}>
             <span className="fas fa-store">{""}</span> Online-Store{" "}
           </NavLink>
           <NavLink to="/admin" activeStyle={activeStyle}>
             <span className="fas fa-user-cog">{""}</span> Setting{" "}
           </NavLink>
-
-          {/* <Switch>
-            {routes.map((route, index) => (
-              
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                children={<route.sidebar />}
-              />
-            ))}
-          </Switch> */}
         </div>
 
-        <div>
+        <div id="main" className="">
+          <p className="openbtn">Welcome back, {user.accountNumber}</p>
           <Switch>
             {routes.map((route, index) => (
-              // Render more <Route>s with the same paths as
-              // above, but different components this time.
               <Route
                 key={index}
                 path={route.path}
@@ -141,7 +146,8 @@ const SidebarExample = () => {
           </Switch>
         </div>
       </div>
+      {/* </div> */}
     </Router>
   );
 };
-export default SidebarExample;
+export default MerchantDashboard;

@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
-// import LoginBtn from "../../components/CustomButton/CustomButton";
+import CreateShopBtn from "../../components/CustomButton/CustomButton";
 import {
   getAvailableDispatchRider,
   getCurrencyType,
   createShop,
   getPaymentRef,
 } from "../../Services/CreateShoputil";
-import { connect } from "react-redux";
-import { loadUser } from "../../actions/AuthAction";
 
-import "./createShop.css";
-import { useHistory } from "react-router-dom";
 import PayWithRaveBtn from "../../components/RaveGateway/PayWithRaveBtn";
+import "./createShop.css";
 
-const CreateShop = ({ loadUser }, props) => {
-  const history = useHistory();
+const CreateShop = (props) => {
   useEffect(() => {
     getCurrencyType(setCurrency);
 
@@ -32,9 +28,10 @@ const CreateShop = ({ loadUser }, props) => {
   const [errors, setError] = useState({});
   const [dispatchRiderId, setdispatchRiderId] = useState([]);
   const [currency, setCurrency] = useState([]);
+  const [shopcreated, setShopcreated] = useState({});
   const [res, setRes] = useState({});
   const [payRef, setPayRef] = useState({});
-  const [riderAvailable, setAvailable] = useState("false");
+  const [riderAvailable, setAvailable] = useState(true);
 
   const validateForm = (props) => {
     // let formField = user.formField;
@@ -77,122 +74,166 @@ const CreateShop = ({ loadUser }, props) => {
       ...shop,
       [e.target.name]: e.target.value,
     });
+    setShopcreated({ [e.target.name]: e.target.value });
+    console.log(shopcreated);
+    if (e.target.name === "shopId") {
+      getPaymentRef(setPayRef, e.target.value);
+    }
+
     // console.log(shop);
     if (e.target.name === "currencyId") {
-      setAvailable("true");
+      setAvailable(false);
       getAvailableDispatchRider(setdispatchRiderId, e.target.value);
     }
   };
 
   return (
     <div className="container">
-      <h3 className="mt-3 p-3 mb-2">
-        Pitch your tent on Tenancy-
-        <span style={{ color: "goldenrod" }}>Hub</span> to grow incomes
-      </h3>
-      <form onSubmit={onSubmit}>
-        {/* <div className="formGroup"> */}
-        <label htmlFor="bank-detail">Shop Name</label>
-        <span
-          className="d-block"
-          style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-        >
-          {errors["storeName"]}
-        </span>
-        <FormInput
-          type="text"
-          name="storeName"
-          // value={email}
-          placeholder="Enter Shop name"
-          onChange={onChanges}
-          required
-        />
-        <div>
-          <label htmlFor="store description">Description</label>
+      <div className="shop-form">
+        <h3 className="mb-2">
+          Pitch your tent on Tenancy-
+          <span style={{ color: "goldenrod" }}>Hub</span> to grow incomes
+        </h3>
+        <form onSubmit={onSubmit}>
+          {/* <div className="formGroup"> */}
+          <label htmlFor="bank-detail">Shop Name</label>
           <span
             className="d-block"
             style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
           >
-            {errors["description"]}
+            {errors["storeName"]}
           </span>
-          <textarea
-            className="group"
-            name="description"
-            //   value={description}
-            onChange={onChanges}
-            placeholder="Brief Store details"
-            //   style={{ width: "100%" }}
-            rows="3"
-          ></textarea>
-        </div>
-        <label htmlFor="currency type">Currency type</label>
-
-        <span
-          className="d-block"
-          style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-        >
-          {errors["currencyId"]}
-        </span>
-        <select value={shop.currencyId} onChange={onChanges} name="currencyId">
-          <option value="SELECT CURRENCY TYPE">SELECT CURRENCY TYPE</option>
-          {currency.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="currency type">Dispatch Ride</label>
-
-        <span
-          className="d-block"
-          style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-        >
-          {errors["dispatchRiderId"]}
-        </span>
-        <select
-          value={shop.dispatchRiderId}
-          onChange={onChanges}
-          name="dispatchRiderId"
-          //   {!riderAvailable ? disabled: null}
-        >
-          <option value="SELECT DISPATCH RIDER">SELECT DISPATCH RIDER</option>
-          {dispatchRiderId.map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.name}
-            </option>
-          ))}
-        </select>
-
-        <span
-          className="text-center"
-          style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-        >
-          {" "}
-          {res.message}
-        </span>
-        {res.message !== "200" && (
           <FormInput
-            onClick={onSubmit}
-            style={{ width: "100%", color: "black", background: "grey" }}
-            type="submit"
-            value="Create Shop"
+            type="text"
+            name="storeName"
+            // value={email}
+            placeholder="Enter Shop name"
+            onChange={onChanges}
+            required
           />
+          <div>
+            <label htmlFor="store description">Description</label>
+            <span
+              className="d-block"
+              style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+            >
+              {errors["description"]}
+            </span>
+            <textarea
+              className="group"
+              name="description"
+              //   value={description}
+              onChange={onChanges}
+              placeholder="Brief Store details"
+              //   style={{ width: "100%" }}
+              rows="3"
+            ></textarea>
+          </div>
+          <label htmlFor="currency type">Currency type</label>
+
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["currencyId"]}
+          </span>
+          <select
+            value={shop.currencyId}
+            onChange={onChanges}
+            name="currencyId"
+          >
+            <option value="SELECT CURRENCY TYPE">SELECT CURRENCY TYPE</option>
+            {currency.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="currency type">Dispatch Ride</label>
+
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors["dispatchRiderId"]}
+          </span>
+          <select
+            value={shop.dispatchRiderId}
+            onChange={onChanges}
+            name="dispatchRiderId"
+            disabled={riderAvailable}
+          >
+            <option value="SELECT DISPATCH RIDER">SELECT DISPATCH RIDER</option>
+            {dispatchRiderId.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+              </option>
+            ))}
+          </select>
+
+          <span
+            className="text-center"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {" "}
+            {res.message}
+          </span>
+          {res.message !== "200" && (
+            // <FormInput
+            //   onClick={onSubmit}
+            //   style={{ width: "100%", color: "black", background: "grey" }}
+            //   type="submit"
+            //   value="Create Shop"
+            // />
+            <div className="mt-3">
+              <CreateShopBtn
+                onClick={onSubmit}
+                type="submit"
+                style={{ width: "100%" }}
+              >
+                Create Shop
+              </CreateShopBtn>
+            </div>
+          )}
+          {/* {res.message === "200" && ( */}
+
+          {/* // )} */}
+        </form>
+
+        {props.shopAvailable.length > 0 && (
+          <>
+            <div className=" mt-4 py-3">
+              <div htmlFor="available shop" className="text-center">
+                <h5> Select Shop to pay</h5>
+              </div>
+              <select
+                value={shopcreated.shopId}
+                onChange={onChanges}
+                name="shopId"
+                //   {!riderAvailable ? disabled: null}
+              >
+                <option value="SELECT DISPATCH RIDER">SELECT SHOP</option>
+                {props.shopAvailable.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.storeName}
+                  </option>
+                ))}
+              </select>
+              <PayWithRaveBtn
+                // class="button"
+                // btnText="Pay Now to verify shop"
+                tx_ref={payRef.paymentReference}
+                currency={payRef.currency}
+                amount={payRef.amount}
+                name={shop.storeName}
+                email={localStorage.getItem("email")}
+                storeName={`Payment for ${shop.storeName} Shop`}
+                // callback={onSuccess}
+              />
+            </div>
+          </>
         )}
-        {res.message === "200" && (
-          <PayWithRaveBtn
-            class="button"
-            btnText="Pay Now to verify shop"
-            txref={payRef.paymentReference}
-            // ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X"
-            //   paymentReference={config.paymentReference}
-            currency={payRef.currency}
-            amount={payRef.amount}
-            firstname={shop.storeName}
-            customer_email={localStorage.getItem("email")}
-            // callback={onSuccess}
-          />
-        )}
-      </form>
+      </div>
     </div>
   );
 };

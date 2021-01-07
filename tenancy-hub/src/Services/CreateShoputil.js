@@ -61,7 +61,7 @@ export const createShop = async (callBackFunction, data) => {
     }
   }
 };
-export const getPaymentRef = async (callBackFunction) => {
+export const getPaymentRef = async (callBackFunction, id) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -72,7 +72,7 @@ export const getPaymentRef = async (callBackFunction) => {
   };
   try {
     const res = await axios.get(
-      `${API_BASE_URL}merchant/generate-reference-for-shop-approval/2`,
+      `${API_BASE_URL}merchant/generate-reference-for-shop-approval/${id}`,
 
       config
     );

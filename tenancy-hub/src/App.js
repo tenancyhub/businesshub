@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import Login from "./Pages/Login-Modal/Login";
 import SignUp from "./Pages/SignUp/SignUp";
 import Homepage from "./Pages/Homepage";
-import MerchantDashboard from "./Pages/Dashboard/Merchant-Dashboard";
+// import MerchantDashboard from "./Pages/Dashboard/Merchant-Dashboard";
 import { Provider } from "react-redux";
 import store from "./Store";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage";
@@ -20,7 +20,7 @@ import PayWithRaveBtn from "./components/RaveGateway/PayWithRaveBtn";
 import setAuthToken from "./utils/SetAuthToken";
 import PaymentPage from "./Pages/PaymentPage/PaymentPage";
 import CreateShop from "./Pages/CreateShop/CreateShop";
-import SidebarExample from "./Pages/Dashboard/Dashboard";
+import MerchantDashboard from "./Pages/Dashboard/Dashboard";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -35,7 +35,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/Login" component={Login} />
-          <Route path="/admin" component={SidebarExample} />
+          <Route path="/admin" component={MerchantDashboard} />
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
           <Route path="/registration-fee" component={PaymentPage} />
