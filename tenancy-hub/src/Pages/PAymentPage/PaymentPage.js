@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import PayWithRaveBtn from "../../components/RAveGateway/PayWithRaveBtn";
+import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
 import { Subscribe } from "../../Services/MerchantTokaenPayment";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/AuthAction";
@@ -46,17 +46,17 @@ const PaymentPage = ({ user, loadUser }, props) => {
     <div className="pay-container">
       <div className="pay">
         <p>Please click the button below to proceed to Payment</p>
-        <PayWithRaveBtn
-          btnText="Pay"
-          txref={config.paymentReference}
-          // ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X"
-          //   paymentReference={config.paymentReference}
-          currency={config.currency}
-          amount={config.amount}
-          firstname={details.firstName}
-          lastname={details.lastName}
-          customer_email={details.email}
-          callback={onSuccess}
+        <PayWithRave
+        // btnText="Pay"
+        // txref={config.paymentReference}
+        // // ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X"
+        // //   paymentReference={config.paymentReference}
+        // currency={config.currency}
+        // amount={config.amount}
+        // firstname={details.firstName}
+        // lastname={details.lastName}
+        // customer_email={details.email}
+        // callback={onSuccess}
         />
       </div>
     </div>

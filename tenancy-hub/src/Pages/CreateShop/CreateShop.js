@@ -12,7 +12,7 @@ import { loadUser } from "../../actions/AuthAction";
 
 import "./createShop.css";
 import { useHistory } from "react-router-dom";
-import PayWithRaveBtn from "../../components/RAveGateway/PayWithRaveBtn";
+import PayWithRaveBtn from "../../components/RaveGateway/PayWithRaveBtn";
 
 const CreateShop = ({ loadUser }, props) => {
   const history = useHistory();

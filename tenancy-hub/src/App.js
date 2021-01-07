@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/shop" component={Products} />
           <Route path="/cart" component={Carts} />
           <Route path="/registration-fee" component={PaymentPage} />
-          {/* <Route path="/payment" component={PayWithRaveBtn} /> */}
+          <Route path="/payment" component={PayWithRaveBtn} />
           <Route path="/verify-merchant" component={VerifyMercchant} />
           <Route path="/add-product" component={AddFormProduct} />
           <Route path="/create-shop" component={CreateShop} />
