@@ -1,47 +1,47 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+// import { useState } from "react";
+// import { useEffect } from "react";
 import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
-import { Subscribe } from "../../Services/MerchantTokaenPayment";
+// import { Subscribe } from "../../Services/MerchantTokaenPayment";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/AuthAction";
-import axios from "axios";
-import util from "../../utils/util";
-import setAuthToken from "../../utils/SetAuthToken";
+// import axios from "axios";
+// import util from "../../utils/util";
+// import setAuthToken from "../../utils/SetAuthToken";
 import "./pay.css";
 
 const PaymentPage = ({ user, loadUser }, props) => {
-  useEffect(() => {
-    // loadUser();
-    Subscribe(setConfig);
-    // if (localStorage.token) {
-    //   setAuthToken(localStorage.token);
-    // }
+  // useEffect(() => {
+  //   // loadUser();
+  //   // Subscribe(setConfig);
+  //   // if (localStorage.token) {
+  //   //   setAuthToken(localStorage.token);
+  //   // }
 
-    // try {
-    const ref = async () => {
-      if (localStorage.token) {
-        setAuthToken(localStorage.token);
-      }
-      try {
-        const res = await axios.get(`${util}merchant/my-info`);
-        setDetails({ ...res.data.user });
-        console.log(res.data.user);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    ref();
-    // console.log(details);
-    // eslint - disable - next - line;
-  }, []);
+  //   // try {
+  //   const ref = async () => {
+  //     if (localStorage.token) {
+  //       setAuthToken(localStorage.token);
+  //     }
+  //     try {
+  //       const res = await axios.get(`${util}merchant/my-info`);
+  //       setDetails({ ...res.data.user });
+  //       console.log(res.data.user);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   ref();
+  //   // console.log(details);
+  //   // eslint - disable - next - line;
+  // }, []);
 
   // const onSuccess = () => {
   //   props.history("/admin");
   // };
 
-  const [config, setConfig] = useState({});
-  const [details, setDetails] = useState({});
+  // const [config, setConfig] = useState({});
+  // const [details, setDetails] = useState({});
   return (
     <div className="pay-container">
       <div className="pay">

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import AddFormProduct from "./AddProductForm/AddFormProduct";
-import CreateShop from "./CreateShop/CreateShop";
-import Notification from "./Dashboard/Notification/Notification";
-import Products from "./Products";
+import AddFormProduct from "../AddProductForm/AddFormProduct";
+import CreateShop from "../CreateShop/CreateShop";
+import Notification from "./Notification/Notification";
+import Products from "../Products";
 import { NavLink } from "react-router-dom";
 
 // Each logical "route" has two components, one for

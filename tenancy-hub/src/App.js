@@ -20,7 +20,7 @@ import PayWithRaveBtn from "./components/RaveGateway/PayWithRaveBtn";
 import setAuthToken from "./utils/SetAuthToken";
 import PaymentPage from "./Pages/PaymentPage/PaymentPage";
 import CreateShop from "./Pages/CreateShop/CreateShop";
-import SidebarExample from "./Pages/Dashboard";
+import SidebarExample from "./Pages/Dashboard/Dashboard";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
