@@ -44,11 +44,11 @@ label {
 /* input[type="submit"] {
   background-color: #4caf50;
   cursor: pointer;
-}
+}*/
 
 input[type="submit"]:hover {
-  background-color: #467a49;
-} */
+  background-color: #f6f8f6;
+}
 
 /* .form-input-label {
   color: grey;

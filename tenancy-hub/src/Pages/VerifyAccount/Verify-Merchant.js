@@ -33,7 +33,7 @@ const VerifyMercchant = (props) => {
   const [show, setShow] = useState(false);
   const onCloseModal = () => {
     setShow(false);
-    history.push("/");
+    history.push("/admin");
   };
 
   const validateForm = () => {
@@ -124,6 +124,7 @@ const VerifyMercchant = (props) => {
               {errors["id"]}
             </span>
             <select value={user.id} onChange={onChanges} name="id">
+              <option value="Select Bank">Select Bank</option>
               {bank.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.bankName}

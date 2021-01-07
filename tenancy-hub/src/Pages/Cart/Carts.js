@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import PayWithRaveBtn from "../../components/RAveGateway/PayWithRaveBtn";
+import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
 import {
   deleteItem,
   decreaseCart,
@@ -126,7 +126,14 @@ const Carts = ({
           className="p-3 m-auto text-white "
           style={{ border: "1px solid", backgroundColor: "#2dcc5d" }}
         >
-          <PayWithRaveBtn />
+          <PayWithRave
+          // tx_ref={payRef.paymentReference}
+          // currency={payRef.currency}
+          // amount={payRef.amount}
+          // name={shop.storeName}
+          // email={localStorage.getItem("email")}
+          // storeName={`Payment for ${shop.storeName} Shop`}
+          />
         </span>
       </div>
     </div>

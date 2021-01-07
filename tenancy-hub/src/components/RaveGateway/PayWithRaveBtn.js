@@ -1,61 +1,50 @@
-import React, { useState, useEffect } from "react";
-// import './App.css';
-// Import the Library
-import Rave from "react-flutterwave-rave";
+import React from "react";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import PayBtn from "../CustomButton/CustomButton";
 
 const PayWithRaveBtn = (props) => {
-  //test card--  5531 8866 5214 2950
-  // exp: 09/32
-  // cvv 564
-  useEffect(() => {
-    setConfig({ ...props });
-  }, [props]);
+  const config = {
+    public_key: "FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X",
+    tx_ref: props.tx_ref,
+    amount: props.amount,
+    currency: props.currency,
 
-  const [config, setConfig] = useState({
-    // key: "FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X", // RavePay PUBLIC KEY
-    // phone: "0000000000000",
-    // amount: 2000,
-    // firstname: "Oluwole",
-    // lastname: "Adebiyi",
-    // email: "test@test.com",
-    // room_number: "23A",
-    // hostel: "Silver 1",
-    // ticket_number: 3,
-  });
-  //   this.callback = this.callback.bind(this);
-  //   this.close = this.close.bind(this);
-  // }
-
-  const callback = (response) => {
-    console.log(response);
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      email: props.email,
+      phonenumber: "07037860938",
+      name: props.name,
+    },
+    customizations: {
+      title: props.storeName,
+      // description: "Payment for items in cart",
+      logo:
+        "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
   };
 
-  const close = () => {
-    console.log("Payment closed");
-  };
+  const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <div className="App">
-      <Rave
-        pay_button_text={props.btnText}
-        {...config}
-        class="pay-button"
-        // metadata={[
-        //   { metaname: "Tickets", metavalue: config.ticket_number },
-        //   { metaname: "Hostel", metavalue: config.hostel },
-        //   { metaname: "Room", metavalue: config.room_number },
-        // ]}
-        payment_method="card"
-        // customer_email={config.email}
-        // customer_phone={config.phone}
-        // amount={20}
-        // currency="USD"
-        ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X" // RavePay PUBLIC KEY
-        callback={callback}
-        onclose={close}
-      />
+    <div className="">
+      {/* <h1>Hello Test user</h1> */}
+
+      <PayBtn
+        onClick={() => {
+          handleFlutterPayment({
+            callback: (response) => {
+              console.log(response);
+              closePaymentModal(); // this will close the modal programmatically
+            },
+            onClose: () => {
+              console.log("Payment closed");
+            },
+          });
+        }}
+      >
+        Proceed to pay
+      </PayBtn>
     </div>
   );
 };
-
 export default PayWithRaveBtn;
