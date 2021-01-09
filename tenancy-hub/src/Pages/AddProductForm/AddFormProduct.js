@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
 import AddProduct from "../../components/CustomButton/CustomButton";
 import { addProductUtil } from "../../Services/AddProductsUtil";
+import ProductToDisplaybyMerchant from "./ProductToDisplaybyMerchant";
 // import { toast } from "react-toastify";
 
 import "./addProduct.css";
@@ -107,6 +108,7 @@ const AddFormProduct = (props) => {
 
   return (
     <div className="container">
+      <ProductToDisplaybyMerchant />
       <div className=" product-form">
         {/* <SideBar /> */}
         <form className="contactForm" onSubmit={onSubmit}>

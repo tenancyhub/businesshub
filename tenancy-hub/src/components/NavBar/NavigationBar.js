@@ -9,10 +9,14 @@ import "./Navbar.css";
 const NavBar = ({ cart, logOut }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
+  const [isCustomer, setIsCustomer] = useState(false);
 
   useEffect(() => {
     if (localStorage.token) {
       localStorage.setItem("isloggedIn", "true");
+    }
+    if (localStorage.userType === "CUSTOMER") {
+      setIsCustomer(true);
     }
   }, []);
 
@@ -87,7 +91,7 @@ const NavBar = ({ cart, logOut }) => {
             )}
           </ul>
         </div>
-        {localStorage.token && (
+        {isCustomer && (
           <span className="nav-item mr-auto" style={{ position: "relative" }}>
             <Link className="nav-link" to="/cart">
               <i className="fas fa-shopping-cart fa-2x"></i>
@@ -95,7 +99,11 @@ const NavBar = ({ cart, logOut }) => {
               {cart && (
                 <p
                   className="badge badge-danger"
-                  style={{ position: "absolute", top: "-2px", right: "35PX" }}
+                  style={{
+                    position: "absolute",
+                    top: "-2px",
+                    right: "35PX",
+                  }}
                 >
                   {cart.length}
                 </p>

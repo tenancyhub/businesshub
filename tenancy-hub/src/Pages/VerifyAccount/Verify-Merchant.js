@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
-// import LoginBtn from "../../components/CustomButton/CustomButton";
+import VerifyBtn from "../../components/CustomButton/CustomButton";
 import { useHistory } from "react-router-dom";
 import {
   getBanks,
@@ -27,6 +27,7 @@ const VerifyMercchant = (props) => {
     id: "Select Bank",
   });
   const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
   const [bank, setBank] = useState([]);
   const [mapaccount, setMapAccount] = useState(false);
   const [checkdetail, setCheckdetail] = useState({});
@@ -55,21 +56,25 @@ const VerifyMercchant = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { accountNumber, id } = user;
+
+    // const { accountNumber, id } = user;
     if (validateForm()) {
-      console.log(accountNumber, id);
+      setLoading(!loading);
+      // console.log(accountNumber, id);
       validateDetails(setCheckdetail, user);
     }
     console.log("see mrere");
   };
   const onValidate = async (e) => {
     e.preventDefault();
+
     if (validateForm()) {
+      setLoading(!loading);
       mapAccountToMerchant(setMapAccount, user);
 
       history.push("/admin");
     }
-    console.log("see mrere");
+    // console.log("see mrere");
   };
 
   const onChanges = (e) => {
@@ -141,20 +146,24 @@ const VerifyMercchant = (props) => {
             <span style={{ color: "red" }}> {checkdetail.message}</span>
 
             {!checkdetail.account_name && (
-              <FormInput
+              <VerifyBtn
                 onClick={onSubmit}
-                style={{ width: "100%", color: "black", background: "grey" }}
+                style={{ width: "100%" }}
                 type="submit"
-                value="Proceed"
-              />
+              >
+                {loading && <i class="spinner-border spinner-border-sm"></i>}{" "}
+                Proceed{" "}
+              </VerifyBtn>
             )}
             {checkdetail.account_name && (
-              <FormInput
+              <VerifyBtn
                 onClick={onValidate}
-                style={{ width: "100%", color: "black", background: "grey" }}
+                style={{ width: "100%" }}
                 type="submit"
-                value="Validate"
-              />
+              >
+                {loading && <i class="spinner-border spinner-border-sm"></i>}{" "}
+                Validate{" "}
+              </VerifyBtn>
             )}
           </form>
         </Modal.Body>

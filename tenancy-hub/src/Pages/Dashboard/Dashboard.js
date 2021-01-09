@@ -57,7 +57,9 @@ const MerchantDashboard = (props) => {
 
   useEffect(() => {
     // loadUser();
-
+    if (!localStorage.token) {
+      props.history.push("/login");
+    }
     const ref = async () => {
       if (localStorage.token) {
         setAuthToken(localStorage.token);

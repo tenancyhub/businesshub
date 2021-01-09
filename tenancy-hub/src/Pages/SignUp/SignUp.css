@@ -3,6 +3,7 @@
   display: grid;
   place-items: center;
   margin: 30px;
+  padding-bottom: 30px;
 }
 
 textarea {

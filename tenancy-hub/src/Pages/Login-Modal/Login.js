@@ -10,10 +10,12 @@ import "./login.css";
 
 const Login = ({ login, isAuthenticated, error }, ...props) => {
   useEffect(() => {
-    if (localStorage.token) {
+    if (localStorage.token && localStorage.userType === "MERCHANT") {
       history.push("/admin");
       // window.href = "/admin";
       console.log("ddffssd");
+    } else if (localStorage.token) {
+      history.push("/shop");
     }
 
     // if (error === "Invalid Credentials") {
@@ -144,7 +146,8 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  authState: state.Auth.isAuthenticated,
+  isAuthenticated: state.Auth.isAuthenticated,
+  user: state.Auth.user,
   error: state.Auth.error,
 });
 

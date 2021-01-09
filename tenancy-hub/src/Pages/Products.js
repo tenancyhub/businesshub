@@ -35,7 +35,10 @@ const Products = ({ product: { items, loading }, addToCart, getItems }) => {
   }
 
   return (
-    <div className="container mt-5" style={{ marginBottom: "100px" }}>
+    <div
+      className="container-fluid offset-1 mt-5"
+      style={{ marginBottom: "100px" }}
+    >
       <div className="row">
         {items.map((item) => (
           <ProductCard

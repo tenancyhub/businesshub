@@ -23,6 +23,12 @@ const PayWithRaveBtn = (props) => {
     },
   };
 
+  //   Card number: 4187 4274 1556 4246
+  // cvv: 828
+  // Expiry: 09/32
+  // Pin: 3310
+  // OTP: 12345
+
   const handleFlutterPayment = useFlutterwave(config);
 
   return (
