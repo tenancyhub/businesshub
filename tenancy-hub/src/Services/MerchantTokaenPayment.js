@@ -17,7 +17,7 @@ export const Subscribe = async (callBackFunction) => {
       config
     );
 
-    // console.log(res.data);
+    console.log(res.data);
     callBackFunction(res.data);
   } catch (error) {
     if (error.response.data.status === 422) {

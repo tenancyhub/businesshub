@@ -12,7 +12,7 @@ const PayWithRaveBtn = (props) => {
     payment_options: "card,mobilemoney,ussd",
     customer: {
       email: props.email,
-      phonenumber: "07037860938",
+      phonenumber: props.phoneNumber,
       name: props.name,
     },
     customizations: {

@@ -229,6 +229,7 @@ const CreateShop = (props) => {
                 currency={payRef.currency}
                 amount={payRef.amount}
                 name={shop.storeName}
+                phoneNumber=""
                 email={localStorage.getItem("email")}
                 storeName={`Payment for ${shop.storeName} Shop`}
                 // callback={onSuccess}

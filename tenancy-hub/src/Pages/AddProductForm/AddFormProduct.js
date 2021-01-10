@@ -1,25 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormInput from "../../components/Form-input/form-input.component";
 import AddProduct from "../../components/CustomButton/CustomButton";
-import { addProductUtil } from "../../Services/AddProductsUtil";
+import {
+  addProductUtil,
+  fetchProductCategory,
+} from "../../Services/AddProductsUtil";
 import ProductToDisplaybyMerchant from "./ProductToDisplaybyMerchant";
-// import { toast } from "react-toastify";
-
+import { toast } from "react-toastify";
+import axios from "axios";
+import util from "../../utils/util";
+import setAuthToken from "../../utils/SetAuthToken";
 import "./addProduct.css";
 
 const AddFormProduct = (props) => {
+  useEffect(() => {
+    fetchProductCategory(setCategory);
+    const loaduser = async () => {
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+      try {
+        const res = await axios.get(`${util}merchant/my-info`);
+        setUserDetails(res.data);
+        // console.log(res.data.shops);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    loaduser();
+    // eslint-disable-next-line
+  }, [fetchProductCategory]);
   const [product, setProduct] = useState({
     name: "",
     amount: "",
     // file: "",
-    shopId: "21",
+    shopId: "",
     category: "",
     description: "",
   });
   // const [file, setFile] =useState(null)
   const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
-
+  const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const [category, setCategory] = useState({});
   const productParameter = JSON.stringify(product);
   const productPayload = new FormData();
   productPayload.append("productParameter", productParameter);
@@ -28,16 +52,13 @@ const AddFormProduct = (props) => {
 
   // const { amount, name, file, description } = product;
 
-  //   const notify = () =>
-  //   toast.success("Added to cart !", {
-  //     position: "top-right",
-  //     autoClose: 2000,
-  //   });
-
-  // const onClickToCart = (item) => {
-  //   addToCart(item);
-  //   notify();
-  // };
+  const notify = () => {
+    toast.success("Added to cart !", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+    setLoading(!loading);
+  };
 
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
@@ -95,8 +116,11 @@ const AddFormProduct = (props) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
+      setLoading(!loading);
       addProductUtil(setErrors, productPayload);
-
+      if (errors.message === 200) {
+        notify();
+      }
       setProduct({
         name: "",
         amount: "",
@@ -196,13 +220,24 @@ const AddFormProduct = (props) => {
             >
               {errors["category"]}
             </span>
-            <FormInput
+            <select
+              value={product.category}
+              onChange={handleChange}
+              name="category"
+            >
+              <option value="SELECT CATEGORY">SELECT CATEGORY</option>
+              {Object.entries(category).map(([key, value], index) => (
+                <option key={index} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+            {/* <FormInput
               type="text"
-              // value={amount}
               name="category"
               onChange={handleChange}
               placeholder="Category product belongs"
-            />
+            /> */}
           </div>
           <div>
             <label htmlFor="store name">Select Store to Update </label>
@@ -219,16 +254,23 @@ const AddFormProduct = (props) => {
               name="shopId"
             >
               <option value="SELECT STORE">SELECT STORE</option>
-              {/* {props.stores.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))} */}
+              {userDetails.shops &&
+                userDetails.shops.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.storeName}
+                  </option>
+                ))}
             </select>
           </div>
-
+          <span
+            className="d-block"
+            style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+          >
+            {errors.message}
+          </span>
           <AddProduct type="submit" style={{ width: "100%" }}>
-            Add Product
+            {loading && <i class="spinner-border spinner-border-sm"></i>}
+            {!loading && "Add Product"}
           </AddProduct>
         </form>
       </div>
