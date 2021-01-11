@@ -16,11 +16,16 @@ export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
+  const config = {
+    headers: {
+      "content-Type": "application/json",
+    },
+  };
 
   try {
-    const res = await axios.get(`${util}merchant/my-info`);
+    const res = await axios.get(`${util}merchant/my-info`, config);
     dispatch({ type: USER_LOADED, payload: res.data });
-    console.log(res.data);
+    // console.log(res.data);
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
     // console.log({ type: AUTH_ERROR });

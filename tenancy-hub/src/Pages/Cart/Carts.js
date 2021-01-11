@@ -22,7 +22,7 @@ const Carts = ({
   useEffect(() => {
     let total;
     cart.reduce(
-      (allQty, item) => (total = allQty + item.quantity * item.price),
+      (allQty, item) => (total = allQty + item.quantity * item.amount),
       0
     );
     // console.log(total);
@@ -64,7 +64,7 @@ const Carts = ({
             <th>Items</th>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Amount</th>
             <th>Remove</th>
           </tr>
         </thead>
@@ -73,13 +73,13 @@ const Carts = ({
             <tr key={index}>
               <td>
                 <img
-                  src={t.image}
+                  src={t.imageUrl}
                   className="img-fluid"
                   alt="item"
                   width="100px"
                 />
               </td>
-              <td>{t.title}</td>
+              <td>{t.name}</td>
               <td>
                 {" "}
                 <span onClick={() => decreaseCart(t)} className="pointer">
@@ -92,7 +92,7 @@ const Carts = ({
                   &#10095;
                 </span>
               </td>
-              <td>&#8358; {t.price * t.quantity}</td>
+              <td>&#8358; {t.amount * t.quantity}</td>
               <td onClick={() => deleteItem(t)}>
                 <i
                   className="fas fa-trash fa-lg p-2"
@@ -122,19 +122,20 @@ const Carts = ({
         >
           Continue Shopping
         </Link>
-        <span
+        {/* <span
           className="p-3 m-auto text-white "
           style={{ border: "1px solid", backgroundColor: "#2dcc5d" }}
-        >
-          <PayWithRave
+        > */}
+        <PayWithRave
+          style={{ background: "#2dcc5d" }}
           // tx_ref={payRef.paymentReference}
           // currency={payRef.currency}
           // amount={payRef.amount}
           // name={shop.storeName}
           // email={localStorage.getItem("email")}
           // storeName={`Payment for ${shop.storeName} Shop`}
-          />
-        </span>
+        />
+        {/* </span> */}
       </div>
     </div>
   );
@@ -142,6 +143,7 @@ const Carts = ({
 
 const mapStateToProps = (state) => ({
   productState: state.product,
+  user: state.Auth.user,
 });
 export default connect(mapStateToProps, {
   deleteItem,

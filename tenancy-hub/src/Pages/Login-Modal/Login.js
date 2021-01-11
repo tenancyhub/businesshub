@@ -121,19 +121,19 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
             required
           />
           {/* </div> */}
-
-          <FormInput
-            onClick={onSubmit}
-            style={{ width: "100%", color: "black", background: "grey" }}
-            type="submit"
-            value="Login"
-          />
           <span
             className="d-block"
             style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
           >
             {error}
           </span>
+          <FormInput
+            onClick={onSubmit}
+            style={{ width: "100%", color: "black", background: "grey" }}
+            type="submit"
+            value="Login"
+          />
+
           <small style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}>
             This site is protected by reCAPTCHA and the Google Privacy Policy
             and Terms of Service apply.

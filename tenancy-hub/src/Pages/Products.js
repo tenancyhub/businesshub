@@ -7,7 +7,12 @@ import { addToCart, getItems } from "../actions/productAction";
 import { BackTop } from "antd";
 import "antd/dist/antd.css";
 
-const Products = ({ product: { items, loading }, addToCart, getItems }) => {
+const Products = ({
+  product: { items, loading },
+  match,
+  addToCart,
+  getItems,
+}) => {
   const notify = () =>
     toast.success("Added to cart !", {
       position: "top-right",
@@ -18,9 +23,15 @@ const Products = ({ product: { items, loading }, addToCart, getItems }) => {
     addToCart(item);
     notify();
   };
+  // const { storeName } = props.match.params;
+  const {
+    params: { storeName },
+  } = match;
 
   useEffect(() => {
-    getItems();
+    getItems(storeName);
+    console.log(storeName);
+
     //eslint-disable-next-line
   }, []);
 

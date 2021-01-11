@@ -17,7 +17,8 @@ const initialState = {
   loading: true,
   error: null,
   user: null,
-  // merchantUser: null,
+  merchantUser: null,
+  merchantShops: null,
 };
 
 export default (state = initialState, action) => {
@@ -28,6 +29,8 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
         user: action.payload,
+        merchantUser: action.payload.user,
+        merchantShops: action.payload.shops,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

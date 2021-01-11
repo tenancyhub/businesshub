@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AddFormProduct from "../AddProductForm/AddFormProduct";
 import CreateShop from "../CreateShop/CreateShop";
 import Notification from "./Notification/Notification";
+import MerchantShop from "../../Pages/Merchant-Stores/MerchantShop";
+import OrderedItems from "./OrdersDisplay/OrderedItems";
 import Products from "../Products";
 import { NavLink } from "react-router-dom";
 import "./Merchant.css";
@@ -11,6 +13,8 @@ import util from "../../utils/util";
 import setAuthToken from "../../utils/SetAuthToken";
 
 const MerchantDashboard = (props) => {
+  // const [store, setStorename] = useState("alabama2a");
+
   const routes = [
     {
       path: "/admin",
@@ -32,7 +36,7 @@ const MerchantDashboard = (props) => {
     {
       path: "/admin/order",
       sidebar: () => <div>Order</div>,
-      main: () => <h2>Order</h2>,
+      main: () => <OrderedItems />,
     },
     {
       path: "/admin/create-shop",
@@ -40,9 +44,10 @@ const MerchantDashboard = (props) => {
       main: () => <CreateShop shopAvailable={user.shops} />,
     },
     {
-      path: "/admin/shop",
-      sidebar: () => <div>Online Store</div>,
-      main: () => <Products stores={user.shops} />,
+      path: "/admin/selectshop",
+      sidebar: () => <div>Onlinne-shop</div>,
+      // main: () => <Products stores={user.shops} />,
+      main: () => <MerchantShop label="Oniline-shop" />,
     },
     {
       path: "/admin/settings",
@@ -66,7 +71,9 @@ const MerchantDashboard = (props) => {
       }
       try {
         const res = await axios.get(`${util}merchant/my-info`);
-        setUserDetails({ ...res.data });
+        setUserDetails(res.data);
+        setuserInfo(res.data.user);
+        // setStorename(res.data.storeName);
         console.log(res.data);
         localStorage.setItem("email", res.data.user["email"]);
         if (res.data.accountNumber === null) {
@@ -83,6 +90,7 @@ const MerchantDashboard = (props) => {
   }, [props.history]);
 
   const [sidebar, setSidebar] = useState("true");
+  const [userInfo, setuserInfo] = useState("true");
   const [user, setUserDetails] = useState({});
   const [veiw, setVeiw] = useState("false");
 
@@ -126,8 +134,9 @@ const MerchantDashboard = (props) => {
           <NavLink to="/admin/create-shop" activeStyle={activeStyle}>
             <span className="fas fa-store">{""}</span> Create Shop{" "}
           </NavLink>
-          <NavLink to="/admin/shop" activeStyle={activeStyle}>
-            <span className="fas fa-store">{""}</span> Online-Store{" "}
+          <NavLink to="/admin/selectshop" activeStyle={activeStyle}>
+            <span className="fas fa-store">{""}</span>{" "}
+            <MerchantShop label="Oniline-shop" />{" "}
           </NavLink>
           <NavLink to="/admin" activeStyle={activeStyle}>
             <span className="fas fa-user-cog">{""}</span> Setting{" "}
@@ -135,7 +144,7 @@ const MerchantDashboard = (props) => {
         </div>
 
         <div id="main" className="">
-          <p className="openbtn">Welcome back, {user.accountNumber}</p>
+          <p className="openbtn">Welcome back, {userInfo.firstName}</p>
           <Switch>
             {routes.map((route, index) => (
               <Route
