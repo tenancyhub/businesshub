@@ -5,7 +5,6 @@ import CreateShop from "../CreateShop/CreateShop";
 import Notification from "./Notification/Notification";
 import MerchantShop from "../../Pages/Merchant-Stores/MerchantShop";
 import OrderedItems from "./OrdersDisplay/OrderedItems";
-import Products from "../Products";
 import { NavLink } from "react-router-dom";
 import "./Merchant.css";
 import axios from "axios";
