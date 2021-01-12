@@ -22,6 +22,8 @@ import PaymentPage from "./Pages/PaymentPage/PaymentPage";
 import CreateShop from "./Pages/CreateShop/CreateShop";
 import MerchantDashboard from "./Pages/Dashboard/Dashboard";
 import MerchantShop from "./Pages/Merchant-Stores/MerchantShop";
+import Checkout from "./Pages/Checkout/Checkout";
+import RegisterCustomer from "./Pages/Customer-Register/RegisterCustomer";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -39,6 +41,7 @@ const App = () => {
           <Route path="/admin" component={MerchantDashboard} />
           <Route path="/online-store/:storeName" component={Products} />
           <Route path="/cart" component={Carts} />
+          <Route path="/checkout" component={Checkout} />
           <Route path="/selectshop" component={MerchantShop} />
           <Route path="/registration-fee" component={PaymentPage} />
           <Route path="/payment" component={PayWithRaveBtn} />
@@ -47,6 +50,7 @@ const App = () => {
           <Route path="/create-shop" component={CreateShop} />
           {/* <Route path="/admin" component={MerchantDashboard} /> */}
           <Route path="/register" component={SignUp} />
+          <Route path="/register-customer" component={RegisterCustomer} />
           <Route component={ErrorPage} />
         </Switch>
         <ToastContainer />

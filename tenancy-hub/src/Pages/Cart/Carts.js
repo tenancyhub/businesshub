@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
+// import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
+import { cartItemsServices } from "../../Services/CartUtils";
+import BackToShop from "../../components/CustomButton/CustomButton";
 import {
   deleteItem,
   decreaseCart,
@@ -13,13 +15,17 @@ import CartEmpty from "../Cart/cart-empty.svg";
 
 const Carts = ({
   productState: { cart },
+  user,
   deleteItem,
   decreaseCart,
   addToCart,
+  history,
 }) => {
   const [total, setTotal] = useState(0);
+  // const [response,setResponse] = useState({})
 
   useEffect(() => {
+    console.log(user);
     let total;
     cart.reduce(
       (allQty, item) => (total = allQty + item.quantity * item.amount),
@@ -28,10 +34,21 @@ const Carts = ({
     // console.log(total);
     setTotal(total);
     localStorage.setItem("total", total);
-
-    // setinCart(JSON.parse(window.localStorage.getItem("inCart")));
-    // getAmountToPay(cart);
+    // eslint-disable-next-line
   }, [cart]);
+
+  const onCheckout = () => {
+    if (user === null) {
+      // console.log("hgh");
+      // window.href = "/Login";
+      history.push("/Login");
+      // <Redirect to="/login" />;
+    } else {
+      cartItemsServices(cart);
+      console.log("ready to checkout");
+      // history.push("/checkout");
+    }
+  };
 
   if (cart.length <= 0) {
     return (
@@ -41,7 +58,7 @@ const Carts = ({
         </div>
         <p className="d-block">Your Cart is empty</p>
         <Link
-          to="/shop"
+          to="/online-store"
           className="p-3 no-itembtn bg-info text-white"
           style={{
             border: "1px solid",
@@ -110,32 +127,14 @@ const Carts = ({
         {/* {localStorage.getItem("total") ? localStorage.getItem("total") : 0}{" "} */}
       </h4>
       <div className="row mt-4 mb-5 ">
-        <Link
-          to="/"
-          className="p-3 m-auto text-white  "
-          style={{
-            border: "1px solid",
-            backgroundColor: "#2dcc5d",
-            color: "#ffffff",
-            textDecoration: "none",
-          }}
-        >
-          Continue Shopping
-        </Link>
-        {/* <span
-          className="p-3 m-auto text-white "
-          style={{ border: "1px solid", backgroundColor: "#2dcc5d" }}
-        > */}
-        <PayWithRave
-          style={{ background: "#2dcc5d" }}
-          // tx_ref={payRef.paymentReference}
-          // currency={payRef.currency}
-          // amount={payRef.amount}
-          // name={shop.storeName}
-          // email={localStorage.getItem("email")}
-          // storeName={`Payment for ${shop.storeName} Shop`}
-        />
-        {/* </span> */}
+        <div className="p-3 m-auto text-white ">
+          <BackToShop>Continue Shopping</BackToShop>
+        </div>
+        <div className="p-3 m-auto text-white ">
+          <BackToShop type="button" onClick={onCheckout}>
+            Proceed to Checkout
+          </BackToShop>
+        </div>
       </div>
     </div>
   );
@@ -145,8 +144,10 @@ const mapStateToProps = (state) => ({
   productState: state.product,
   user: state.Auth.user,
 });
-export default connect(mapStateToProps, {
-  deleteItem,
-  decreaseCart,
-  addToCart,
-})(Carts);
+export default withRouter(
+  connect(mapStateToProps, {
+    deleteItem,
+    decreaseCart,
+    addToCart,
+  })(Carts)
+);

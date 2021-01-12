@@ -2,7 +2,7 @@ import axios from "axios";
 import API_BASE_URL from "../utils/util";
 import setAuthToken from "../utils/SetAuthToken";
 
-export const add = async (callBackFunction, carts) => {
+export const cartItemsServices = async (carts) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -11,22 +11,21 @@ export const add = async (callBackFunction, carts) => {
       "content-Type": "application/json",
     },
   };
-  let cartItems;
-  carts.map((item) => {
-    cartItems = {
-      productId: item.id,
-      quantity: item.quantity,
-    };
-  });
-
-  //   carts.map(items)=>{
-  // console.log('klk');
-  //   }
+  let cartItems = [];
+  if (carts) {
+    carts.map((item) => {
+      cartItems.push({
+        productId: item.id,
+        quantity: item.quantity,
+      });
+      return cartItems;
+    });
+  }
   try {
-    const res = await axios.post(`${API_BASE_URL}cart`, cartItems, config);
+    await axios.post(`${API_BASE_URL}cart`, cartItems, config);
 
-    // console.log(res.data);
-    callBackFunction(res.data);
+    console.log("ok");
+    // callBackFunction(res.data);
   } catch (error) {
     console.error(error);
   }

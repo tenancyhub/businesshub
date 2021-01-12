@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 // import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
-// import LoginBtn from "../../components/CustomButton/CustomButton";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/AuthAction";
+import { Link } from "react-router-dom";
 import "./login.css";
-// import { validateForm } from "../../utils/Form-Validator";
 
 const Login = ({ login, isAuthenticated, error }, ...props) => {
+  const history = useHistory();
   useEffect(() => {
     if (localStorage.token && localStorage.userType === "MERCHANT") {
       history.push("/admin");
       // window.href = "/admin";
       console.log("ddffssd");
-    } else if (localStorage.token) {
-      history.push("/shop");
+    }
+    if (localStorage.token && localStorage.userType === "CUSTOMER") {
+      history.push("/online-store/alabama2a");
     }
 
     // if (error === "Invalid Credentials") {
@@ -25,7 +26,6 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
     // eslint-disable-next-line
   }, [localStorage.token, props.history]);
 
-  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -139,6 +139,15 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
             and Terms of Service apply.
           </small>
         </form>
+        <div>
+          <h6>
+            Don't have a Account?{" "}
+            <Link to="/register-customer">
+              {" "}
+              <b style={{ color: "#004182" }}>Sign Up</b>
+            </Link>{" "}
+          </h6>
+        </div>
         {/* </Modal.Body>
       </Modal> */}
       </div>
@@ -151,4 +160,4 @@ const mapStateToProps = (state) => ({
   error: state.Auth.error,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default withRouter(connect(mapStateToProps, { login })(Login));
