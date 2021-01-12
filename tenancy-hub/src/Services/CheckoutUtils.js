@@ -2,7 +2,7 @@ import axios from "axios";
 import API_BASE_URL from "../utils/util";
 import setAuthToken from "../utils/SetAuthToken";
 
-export const cartItemsServices = async (callBackFunction, carts) => {
+export const getCartItemsOnCheckout = async (callBackFunction) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -11,21 +11,12 @@ export const cartItemsServices = async (callBackFunction, carts) => {
       "content-Type": "application/json",
     },
   };
-  let cartItems = [];
-  if (carts) {
-    carts.map((item) => {
-      cartItems.push({
-        productId: item.id,
-        quantity: item.quantity,
-      });
-      return cartItems;
-    });
-  }
+
   try {
-    await axios.post(`${API_BASE_URL}cart`, cartItems, config);
+    const res = await axios.get(`${API_BASE_URL}cart`, config);
 
     // console.log(res.data);
-    callBackFunction(true);
+    callBackFunction(res.data);
   } catch (error) {
     console.error(error);
   }

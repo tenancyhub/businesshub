@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { Skeleton } from "antd";
 import ProductCard from "../components/Productcard/ProductCard";
 import { connect } from "react-redux";
-import { addToCart, getItems } from "../actions/productAction";
+import { addToCart, getItems, getProducts } from "../actions/productAction";
 import { BackTop } from "antd";
 import "antd/dist/antd.css";
 
@@ -12,6 +12,7 @@ const Products = ({
   match,
   addToCart,
   getItems,
+  getProducts,
 }) => {
   const notify = () =>
     toast.success("Added to cart !", {
@@ -29,8 +30,11 @@ const Products = ({
   } = match;
 
   useEffect(() => {
-    getItems(storeName);
-    console.log(storeName);
+    if (localStorage.token && localStorage.userType === "MERCHANTS") {
+      getItems(storeName);
+    } else {
+      getProducts();
+    }
 
     //eslint-disable-next-line
   }, []);
@@ -68,4 +72,6 @@ const mapStateToProps = (state) => ({
   product: state.product,
 });
 
-export default connect(mapStateToProps, { addToCart, getItems })(Products);
+export default connect(mapStateToProps, { addToCart, getProducts, getItems })(
+  Products
+);

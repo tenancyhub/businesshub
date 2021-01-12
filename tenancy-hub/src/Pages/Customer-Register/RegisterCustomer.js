@@ -9,7 +9,30 @@ import util from "../../utils/util";
 import "./customer.css";
 
 const RegisterCustomer = (props) => {
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    // confirmPassword: "",
+    phoneNumber: "",
+    address: "",
+    // storeUrl: "",
+  });
+  const [errors, setErrors] = useState({});
+  const {
+    lastName,
+    firstName,
+    email,
+    password,
+    phoneNumber,
+    address,
+    // storeUrl,
+  } = user;
+
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    console.log(user);
     if (localStorage.token) {
       props.history.push("/admin");
       // window.href = "/admin";
@@ -23,35 +46,9 @@ const RegisterCustomer = (props) => {
     // eslint-disable-next-line
   }, [localStorage.token, props.history]);
 
-  const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
-    confirmPassword: "",
-    address: "",
-    description: "",
-    storeName: "",
-    // storeUrl: "",
-  });
-  const [errors, setErrors] = useState({});
-  const {
-    lastName,
-    firstName,
-    email,
-    password,
-    phoneNumber,
-    storeName,
-    address,
-    // storeUrl,
-  } = user;
-
-  const [loading, setLoading] = useState(false);
-
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    // console.log(user);
+    console.log(user);
   };
 
   const validateForm = () => {
@@ -81,10 +78,7 @@ const RegisterCustomer = (props) => {
       formIsValid = false;
       errors["email"] = "Cannot be empty";
     }
-    if (!user.password) {
-      formIsValid = false;
-      errors["password"] = "Cannot be empty";
-    }
+
     if (!user.phoneNumber) {
       formIsValid = false;
       errors["phoneNumber"] = "*Please enter your mobile no.";
@@ -96,14 +90,18 @@ const RegisterCustomer = (props) => {
         errors["phoneNumber"] = "*Please enter valid mobile no.";
       }
     }
+    if (!user.password) {
+      formIsValid = false;
+      errors["password"] = "*Please enter your password.";
+    }
     if (!user.address) {
       formIsValid = false;
       errors["address"] = "*Cannot be empty";
     }
-    if (!user.storeName) {
-      formIsValid = false;
-      errors["storeName"] = "*Cannot be empty";
-    }
+    // if (user.confirmPassword !== user.password) {
+    //   formIsValid = false;
+    //   errors["confirmPassword"] = "*password mismatch.";
+    // }
     //   //   if (!user.street) {
     //   //     formIsValid = false;
     //   //     errors["street"] = "Cannot be empty";
@@ -132,255 +130,186 @@ const RegisterCustomer = (props) => {
       };
       try {
         await axios.post(
-          `${util}register-merchant`,
+          `${util}register-customer`,
           {
             firstName,
             lastName,
             email,
             password,
             phoneNumber,
-            storeName,
             address,
           },
           config
         );
-        props.history.push("/admin");
+        props.history.push("/");
         // window.href = "/admin";
-        alert("registered");
+        // alert("registered");
       } catch (err) {
         if (err.response.data.status === 422) {
           alert(err.response.data.message);
         }
+        setUser({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          phoneNumber: "",
+          address: "",
+        });
       }
     }
-    // setUser({
-    //   firstname: "",
-    //   lastname: "",
-    //   email: "",
-    //   password: "",
-    //   phoneNumber: "",
-    //   address: "",
-    //   description: "",
-    //   storeName: "",
-    //   storeUrl: "",
-    // });
   };
 
   return (
     <div class="container">
-      <div className="row ">
-        {/* <div className="col-lg-6 col-sm col-md"> */}
-        <div className="col- lg-3 col-sm col-md">
-          {/* <h4>Shippng Address</h4> */}
-          <div>
-            <label htmlFor="Name">
-              <i class="fas fa-user" /> Full Name
-            </label>
-            <FormInput type="text" placeholder=" John Doe..." />
+      <h3 className="mt-3 p-3 mb-2">
+        Register on Tenancy-<span style={{ color: "goldenrod" }}>Hub</span>
+      </h3>
+      <form onSubmit={onSubmit}>
+        <div className="row ">
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="Name">
+                <i class="fas fa-user" /> Fisrt Name
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["firstName"]}
+              </span>
+              <FormInput
+                type="text"
+                name="firstName"
+                onChange={handleChange}
+                placeholder=" John Doe..."
+              />
+            </div>
+          </div>
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="LastName">
+                <i class="fas fa-user" /> Last Name
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["lastName"]}
+              </span>
+              <FormInput
+                type="text"
+                name="lastName"
+                onChange={handleChange}
+                placeholder="Doe..."
+              />
+            </div>
           </div>
         </div>
-        <div className="col- lg-3 col-sm col-md">
-          <div>
-            <label htmlFor="Email">
-              <i class="fas fa-envelope" /> Email
-            </label>
-            <FormInput type="email" placeholder="doe@example.com..." />
+        <div className="row ">
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="email">
+                <i class="fas fa-envelope" /> Email
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["email"]}
+              </span>
+              <FormInput
+                type="email"
+                name="email"
+                onChange={handleChange}
+                placeholder=" JohnDoe@jumga.com ...."
+              />
+            </div>
+          </div>
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="address">
+                <i class="fas fa-address-card" /> Address
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["address"]}
+              </span>
+              <FormInput
+                type="text"
+                name="address"
+                onChange={handleChange}
+                placeholder="14, Apena street..."
+              />
+            </div>
+          </div>
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="phone">
+                <i class="fas fa-phone" /> Phone Number
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["phoneNumber"]}
+              </span>
+              <FormInput
+                type="text"
+                name="phoneNumber"
+                onChange={handleChange}
+                placeholder="08111111111..."
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="row ">
-        {/* <div className="col-lg-6 col-sm col-md"> */}
-        <div className="col- lg-3 col-sm col-md">
-          {/* <h4>Shippng Address</h4> */}
-          <div>
-            <label htmlFor="Name">
-              <i class="fas fa-user" /> Full Name
-            </label>
-            <FormInput type="text" placeholder=" John Doe..." />
+        <div className="row ">
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="Password">
+                <i class="fas fa-lock" /> Password
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["password"]}
+              </span>
+              <FormInput
+                type="password"
+                name="password"
+                onChange={handleChange}
+                placeholder="password"
+              />
+            </div>
+          </div>
+          <div className="col- lg-3 col-sm col-md">
+            <div>
+              <label htmlFor="ConfirmPassword">
+                <i class="fas fa-lock" /> Confirm Password
+              </label>
+              <span
+                className="d-block"
+                style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
+              >
+                {errors["confirmPassword"]}
+              </span>
+              <FormInput
+                type="password"
+                // name="confirmPasword"
+                onChange={handleChange}
+                placeholder="password"
+              />
+            </div>
           </div>
         </div>
-        <div className="col- lg-3 col-sm col-md">
-          <div>
-            <label htmlFor="Email">
-              <i class="fas fa-envelope" /> Email
-            </label>
-            <FormInput type="email" placeholder="doe@example.com..." />
-          </div>
-        </div>
-      </div>
-      <div className="row ">
-        {/* <div className="col-lg-6 col-sm col-md"> */}
-        <div className="col- lg-3 col-sm col-md">
-          {/* <h4>Shippng Address</h4> */}
-          <div>
-            <label htmlFor="Name">
-              <i class="fas fa-user" /> Full Name
-            </label>
-            <FormInput type="text" placeholder=" John Doe..." />
-          </div>
-        </div>
-        <div className="col- lg-3 col-sm col-md">
-          <div>
-            <label htmlFor="Email">
-              <i class="fas fa-envelope" /> Email
-            </label>
-            <FormInput type="email" placeholder="doe@example.com..." />
-          </div>
-        </div>
-      </div>
-      <div className="col- lg-3 col-sm col-md">
-        <div>
-          <label htmlFor="address">
-            <i class="fas fa-address-card" /> Address
-          </label>
-          <FormInput type="text" placeholder="14 Apena..." />
-        </div>
-      </div>
-      <div className="col- lg-3 col-sm col-md">
-        <div>
-          <label htmlFor="state">
-            <i class="fas fa-address-card" /> State
-          </label>
-          <FormInput type="text" placeholder="Bornu state..." />
-        </div>
-        {/* </div> */}
-      </div>
-      {/* </div> */}
+        <Register style={{ width: "100%" }} type="submit">
+          {loading && <i class="spinner-border spinner-border-sm"></i>} Sign Up
+        </Register>
+      </form>
     </div>
-
-    // <div className="customer-container">
-    //   <div className="form-container bgColor">
-    //     <h3 className="mt-3 p-3 mb-2">
-    //       Register on Tenancy-<span style={{ color: "goldenrod" }}>Hub</span>
-    //     </h3>
-    //     <form className="contactForm " onSubmit={onSubmit}>
-    //       {/* <div className="d-flex"> */}
-    //       <div className="">
-    //         <label>Firstname</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["firstName"]}
-    //         </span>
-    //         <FormInput
-    //           type="text"
-    //           name="firstName"
-    //           // value={firstname}
-    //           onChange={handleChange}
-    //           placeholder="Firstname"
-    //         />
-    //       </div>
-    //       <div>
-    //         <label>Lastname</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["lastName"]}
-    //         </span>
-    //         <FormInput
-    //           type="text"
-    //           // value={lastname}
-    //           name="lastName"
-    //           onChange={handleChange}
-    //           placeholder="Last Name"
-    //         />
-    //       </div>
-    //       {/* </div> */}
-    //       <div>
-    //         <label>Email</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["email"]}
-    //         </span>
-    //         <FormInput
-    //           type="email"
-    //           //   value={email}
-    //           name="email"
-    //           onChange={handleChange}
-    //           placeholder="Enter email address"
-    //         />
-    //       </div>
-    //       {/* <div className="d-flex"> */}
-    //       <div className="">
-    //         <label>Password</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["password"]}
-    //         </span>
-    //         <FormInput
-    //           type="password"
-    //           // value={password}
-    //           name="password"
-    //           onChange={handleChange}
-    //           placeholder="Password"
-    //         />
-    //       </div>
-    //       <div className="">
-    //         <label>Confirm password</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["confirmPassword"]}
-    //         </span>
-    //         <FormInput
-    //           type="password"
-    //           // value={confirmPassword}
-    //           name="confirmPassword"
-    //           onChange={handleChange}
-    //           placeholder="Confirm Password"
-    //         />
-    //       </div>
-    //       {/* </div> */}
-
-    //       <div>
-    //         <label>Phone </label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["phoneNumber"]}
-    //         </span>
-    //         <FormInput
-    //           type="text"
-    //           //   value={storeUrl}
-    //           name="phoneNumber"
-    //           onChange={handleChange}
-    //           placeholder="Phone Number"
-    //         />
-    //       </div>
-
-    //       <div>
-    //         <label>Address</label>
-    //         <span
-    //           className="d-block"
-    //           style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
-    //         >
-    //           {errors["address"]}
-    //         </span>
-    //         <FormInput
-    //           type="text"
-    //           onChange={handleChange}
-    //           name="address"
-    //           //   value={address}
-    //           placeholder="Address"
-    //         />
-    //       </div>
-
-    //       <Register style={{ width: "100%" }}>
-    //         {loading && <i class="spinner-border spinner-border-sm"></i>}
-    //         {"  "}
-    //         Register
-    //       </Register>
-    //     </form>
-    //   </div>
-    // </div>
   );
 };
 //  const mapStateToProps = (state) => ({

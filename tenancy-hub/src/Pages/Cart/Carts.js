@@ -22,10 +22,10 @@ const Carts = ({
   history,
 }) => {
   const [total, setTotal] = useState(0);
-  // const [response,setResponse] = useState({})
+  const [response, setResponse] = useState(false);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     let total;
     cart.reduce(
       (allQty, item) => (total = allQty + item.quantity * item.amount),
@@ -39,14 +39,13 @@ const Carts = ({
 
   const onCheckout = () => {
     if (user === null) {
-      // console.log("hgh");
-      // window.href = "/Login";
       history.push("/Login");
-      // <Redirect to="/login" />;
     } else {
-      cartItemsServices(cart);
-      console.log("ready to checkout");
-      // history.push("/checkout");
+      cartItemsServices(setResponse, cart);
+      // console.log("ready to checkout");
+      if (response) {
+        history.push("/checkout");
+      }
     }
   };
 
@@ -58,7 +57,7 @@ const Carts = ({
         </div>
         <p className="d-block">Your Cart is empty</p>
         <Link
-          to="/online-store"
+          to="/"
           className="p-3 no-itembtn bg-info text-white"
           style={{
             border: "1px solid",
@@ -128,7 +127,14 @@ const Carts = ({
       </h4>
       <div className="row mt-4 mb-5 ">
         <div className="p-3 m-auto text-white ">
-          <BackToShop>Continue Shopping</BackToShop>
+          <BackToShop
+            type="button"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            Continue Shopping
+          </BackToShop>
         </div>
         <div className="p-3 m-auto text-white ">
           <BackToShop type="button" onClick={onCheckout}>

@@ -36,10 +36,11 @@ const App = () => {
         <NavBar />
 
         <Switch>
-          <Route exact path="/" component={Homepage} />
+          <Route exact path="/" component={Products} />
           <Route path="/Login" component={Login} />
           <Route path="/admin" component={MerchantDashboard} />
           <Route path="/online-store/:storeName" component={Products} />
+          <Route path="/merchant-corner" component={Homepage} />
           <Route path="/cart" component={Carts} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/selectshop" component={MerchantShop} />

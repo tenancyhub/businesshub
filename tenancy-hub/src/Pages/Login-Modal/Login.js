@@ -16,7 +16,7 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
       console.log("ddffssd");
     }
     if (localStorage.token && localStorage.userType === "CUSTOMER") {
-      history.push("/online-store/alabama2a");
+      history.push("/");
     }
 
     // if (error === "Invalid Credentials") {
