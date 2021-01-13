@@ -1,6 +1,7 @@
 import {
   GET_ITEMS,
   GET_All_PRODUCTS,
+  GET_PREVIOUS_CARTS,
   ADD_TO_CARTS,
   DELETE_ITEM,
   DECREASE_CART_ITEM,
@@ -42,6 +43,13 @@ export default (state = initialState, action) => {
         products: action.payload,
         items: action.payload,
         loading: false,
+      };
+    case GET_PREVIOUS_CARTS:
+      return {
+        ...state,
+        // cart: addItemToCart(state.cart, action.payload),
+        cart: action.payload,
+        // TotalAmountToPay: getAmountToPay(state.cart),
       };
     case ADD_TO_CARTS:
       return {

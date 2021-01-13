@@ -19,7 +19,7 @@ const NavBar = ({ cart, logOut }) => {
     if (localStorage.userType === "CUSTOMER") {
       setIsCustomer(true);
     }
-  }, [setIsCustomer]);
+  }, [isCustomer]);
 
   // const isLogggedIn =(
   //   <Fragment>
