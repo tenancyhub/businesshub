@@ -47,6 +47,8 @@ const SignUp = (props) => {
     // storeUrl,
   } = user;
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     // console.log(user);
@@ -122,6 +124,7 @@ const SignUp = (props) => {
     // e.peventDefault();
     event.preventDefault();
     if (validateForm()) {
+      setLoading(!loading);
       const config = {
         headers: {
           "content-Type": "application/json",
@@ -314,7 +317,12 @@ const SignUp = (props) => {
               placeholder="Address"
             />
           </div>
-          <Register style={{ width: "100%" }}>Register</Register>
+
+          <Register style={{ width: "100%" }}>
+            {loading && <i class="spinner-border spinner-border-sm"></i>}
+            {"  "}
+            Register
+          </Register>
         </form>
       </div>
     </div>

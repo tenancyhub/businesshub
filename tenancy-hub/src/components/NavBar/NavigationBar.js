@@ -5,16 +5,21 @@ import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
 import { logOut } from "../../actions/AuthAction";
 import "./Navbar.css";
+import FormInput from "../Form-input/form-input.component";
 
 const NavBar = ({ cart, logOut }) => {
   const [showNav, setShowNav] = useState(false);
   const history = useHistory();
+  const [isCustomer, setIsCustomer] = useState(false);
 
   useEffect(() => {
     if (localStorage.token) {
       localStorage.setItem("isloggedIn", "true");
     }
-  }, []);
+    if (localStorage.userType === "CUSTOMER") {
+      setIsCustomer(true);
+    }
+  }, [isCustomer]);
 
   // const isLogggedIn =(
   //   <Fragment>
@@ -28,19 +33,36 @@ const NavBar = ({ cart, logOut }) => {
   const toggleNav = () => {
     setShowNav(!showNav);
   };
-  // const onlogOut = async () => {
-  //   console.log("ljhj");
-  //   logOut();
-  // };
+  const onlogOut = async () => {
+    // console.log("ljhj");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("isloggedIn");
+    logOut();
+  };
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top navbar-light">
-      <div className="container">
+      {/* <div className="container"> */}
+      <>
         <Link className="navbar-brand" to="/">
           <p className="logo">
             Tenancy <span style={{ color: "goldenrod" }}>Hub</span>
           </p>
         </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => toggleNav()}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="navbar-nav">
+          <FormInput
+            type="search"
+            style={{ width: "350px" }}
+            placeholder="Search products ..."
+          />
+        </div>
 
         <div className={(showNav ? "show" : "") + " collapse navbar-collapse"}>
           <ul className="navbar-nav ml-auto">
@@ -50,15 +72,20 @@ const NavBar = ({ cart, logOut }) => {
               </Link>
             </li>
             <li className="nav-item">
+              <SignUpButton
+                onClick={() => {
+                  history.push(`/merchant-corner`);
+                }}
+                type="button"
+                style={{ borderRadius: "5px" }}
+              >
+                Sell on Tenancy hub
+              </SignUpButton>
+            </li>
+            <li className="nav-item">
               {localStorage.token ? (
                 <Link className="nav-link" to="/">
-                  <span
-                    onClick={() => {
-                      logOut();
-                    }}
-                  >
-                    Log out
-                  </span>
+                  <span onClick={onlogOut}>Log out</span>
                 </Link>
               ) : (
                 <Link className="nav-link" to="/login">
@@ -66,28 +93,9 @@ const NavBar = ({ cart, logOut }) => {
                 </Link>
               )}
             </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/">
-                {isAuthenticated && `Hello ${firstName}`}
-              </Link>
-            </li> */}
-
-            {!localStorage.token && (
-              <li className="nav-item">
-                <SignUpButton
-                  onClick={() => {
-                    history.push(`/register`);
-                  }}
-                  type="button"
-                  style={{ borderRadius: "5px" }}
-                >
-                  Sell on Tenancy hub
-                </SignUpButton>
-              </li>
-            )}
           </ul>
         </div>
-        {localStorage.token && (
+        {localStorage.token && localStorage.userType === "MERCHANT" ? null : (
           <span className="nav-item mr-auto" style={{ position: "relative" }}>
             <Link className="nav-link" to="/cart">
               <i className="fas fa-shopping-cart fa-2x"></i>
@@ -95,7 +103,11 @@ const NavBar = ({ cart, logOut }) => {
               {cart && (
                 <p
                   className="badge badge-danger"
-                  style={{ position: "absolute", top: "-2px", right: "35PX" }}
+                  style={{
+                    position: "absolute",
+                    top: "-2px",
+                    right: "35PX",
+                  }}
                 >
                   {cart.length}
                 </p>
@@ -103,14 +115,9 @@ const NavBar = ({ cart, logOut }) => {
             </Link>
           </span>
         )}
-        <button
-          className="navbar-toggler"
-          type="button"
-          onClick={() => toggleNav()}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      </div>
+
+        {/* </div> */}
+      </>
     </nav>
   );
 };

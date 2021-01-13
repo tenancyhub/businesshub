@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 // import Modal from "react-bootstrap/Modal";
 import FormInput from "../../components/Form-input/form-input.component";
-// import LoginBtn from "../../components/CustomButton/CustomButton";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/AuthAction";
+import { Link } from "react-router-dom";
 import "./login.css";
-// import { validateForm } from "../../utils/Form-Validator";
 
 const Login = ({ login, isAuthenticated, error }, ...props) => {
+  const history = useHistory();
   useEffect(() => {
-    if (localStorage.token) {
+    if (localStorage.token && localStorage.userType === "MERCHANT") {
       history.push("/admin");
       // window.href = "/admin";
       console.log("ddffssd");
+    }
+    if (localStorage.token && localStorage.userType === "CUSTOMER") {
+      history.push("/");
     }
 
     // if (error === "Invalid Credentials") {
@@ -23,7 +26,6 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
     // eslint-disable-next-line
   }, [localStorage.token, props.history]);
 
-  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -119,24 +121,33 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
             required
           />
           {/* </div> */}
-
-          <FormInput
-            onClick={onSubmit}
-            style={{ width: "100%", color: "black", background: "grey" }}
-            type="submit"
-            value="Login"
-          />
           <span
             className="d-block"
             style={{ color: "#dd2b0e", fontSize: "0.875rem" }}
           >
             {error}
           </span>
+          <FormInput
+            onClick={onSubmit}
+            style={{ width: "100%", color: "black", background: "grey" }}
+            type="submit"
+            value="Login"
+          />
+
           <small style={{ color: "#223564", fontSize: " 10px", opacity: "1" }}>
             This site is protected by reCAPTCHA and the Google Privacy Policy
             and Terms of Service apply.
           </small>
         </form>
+        <div>
+          <h6>
+            Don't have a Account?{" "}
+            <Link to="/register-customer">
+              {" "}
+              <b style={{ color: "#004182" }}>Sign Up</b>
+            </Link>{" "}
+          </h6>
+        </div>
         {/* </Modal.Body>
       </Modal> */}
       </div>
@@ -144,8 +155,9 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  authState: state.Auth.isAuthenticated,
+  isAuthenticated: state.Auth.isAuthenticated,
+  user: state.Auth.user,
   error: state.Auth.error,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default withRouter(connect(mapStateToProps, { login })(Login));

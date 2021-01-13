@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
+// import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
+import { cartItemsServices } from "../../Services/CartUtils";
+import BackToShop from "../../components/CustomButton/CustomButton";
 import {
   deleteItem,
   decreaseCart,
@@ -13,25 +15,39 @@ import CartEmpty from "../Cart/cart-empty.svg";
 
 const Carts = ({
   productState: { cart },
+  user,
   deleteItem,
   decreaseCart,
   addToCart,
+  history,
 }) => {
   const [total, setTotal] = useState(0);
+  const [response, setResponse] = useState(false);
 
   useEffect(() => {
+    // console.log(user);
     let total;
     cart.reduce(
-      (allQty, item) => (total = allQty + item.quantity * item.price),
+      (allQty, item) => (total = allQty + item.quantity * item.amount),
       0
     );
     // console.log(total);
     setTotal(total);
     localStorage.setItem("total", total);
-
-    // setinCart(JSON.parse(window.localStorage.getItem("inCart")));
-    // getAmountToPay(cart);
+    // eslint-disable-next-line
   }, [cart]);
+
+  const onCheckout = () => {
+    if (user === null) {
+      history.push("/Login");
+    } else {
+      cartItemsServices(setResponse, cart);
+      // console.log("ready to checkout");
+      if (response) {
+        history.push("/checkout");
+      }
+    }
+  };
 
   if (cart.length <= 0) {
     return (
@@ -41,7 +57,7 @@ const Carts = ({
         </div>
         <p className="d-block">Your Cart is empty</p>
         <Link
-          to="/shop"
+          to="/"
           className="p-3 no-itembtn bg-info text-white"
           style={{
             border: "1px solid",
@@ -64,7 +80,7 @@ const Carts = ({
             <th>Items</th>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Amount</th>
             <th>Remove</th>
           </tr>
         </thead>
@@ -73,13 +89,13 @@ const Carts = ({
             <tr key={index}>
               <td>
                 <img
-                  src={t.image}
+                  src={t.imageUrl}
                   className="img-fluid"
                   alt="item"
                   width="100px"
                 />
               </td>
-              <td>{t.title}</td>
+              <td>{t.name}</td>
               <td>
                 {" "}
                 <span onClick={() => decreaseCart(t)} className="pointer">
@@ -92,7 +108,7 @@ const Carts = ({
                   &#10095;
                 </span>
               </td>
-              <td>&#8358; {t.price * t.quantity}</td>
+              <td>&#8358; {t.amount * t.quantity}</td>
               <td onClick={() => deleteItem(t)}>
                 <i
                   className="fas fa-trash fa-lg p-2"
@@ -110,31 +126,21 @@ const Carts = ({
         {/* {localStorage.getItem("total") ? localStorage.getItem("total") : 0}{" "} */}
       </h4>
       <div className="row mt-4 mb-5 ">
-        <Link
-          to="/"
-          className="p-3 m-auto text-white  "
-          style={{
-            border: "1px solid",
-            backgroundColor: "#2dcc5d",
-            color: "#ffffff",
-            textDecoration: "none",
-          }}
-        >
-          Continue Shopping
-        </Link>
-        <span
-          className="p-3 m-auto text-white "
-          style={{ border: "1px solid", backgroundColor: "#2dcc5d" }}
-        >
-          <PayWithRave
-          // tx_ref={payRef.paymentReference}
-          // currency={payRef.currency}
-          // amount={payRef.amount}
-          // name={shop.storeName}
-          // email={localStorage.getItem("email")}
-          // storeName={`Payment for ${shop.storeName} Shop`}
-          />
-        </span>
+        <div className="p-3 m-auto text-white ">
+          <BackToShop
+            type="button"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            Continue Shopping
+          </BackToShop>
+        </div>
+        <div className="p-3 m-auto text-white ">
+          <BackToShop type="button" onClick={onCheckout}>
+            Proceed to Checkout
+          </BackToShop>
+        </div>
       </div>
     </div>
   );
@@ -142,9 +148,12 @@ const Carts = ({
 
 const mapStateToProps = (state) => ({
   productState: state.product,
+  user: state.Auth.user,
 });
-export default connect(mapStateToProps, {
-  deleteItem,
-  decreaseCart,
-  addToCart,
-})(Carts);
+export default withRouter(
+  connect(mapStateToProps, {
+    deleteItem,
+    decreaseCart,
+    addToCart,
+  })(Carts)
+);

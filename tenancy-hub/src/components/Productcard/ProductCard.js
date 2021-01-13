@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import "./productcard.css";
 
 const ProductCard = ({ item, onClickToCart }) => {
-  const { image, title, price } = item;
+  const { imageUrl, description, amount } = item;
 
   return (
     <div className="col-lg-2 col-sm col-md-3 m-2 ">
@@ -12,14 +12,14 @@ const ProductCard = ({ item, onClickToCart }) => {
           <img
             className="card-img p-2 grow embed-responsive-item "
             alt="items"
-            src={image}
+            src={imageUrl}
             width="200px"
           />
         </div>
 
         <Card.Body>
-          <Card.Title>&#8358;{price}</Card.Title>
-          <Card.Text className="text-truncate">{title}</Card.Text>
+          <Card.Title>&#8358;{amount}</Card.Title>
+          <Card.Text className="text-truncate">{description}</Card.Text>
         </Card.Body>
 
         <div className=" p-0 mb-0">

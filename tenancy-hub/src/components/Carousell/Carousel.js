@@ -5,7 +5,7 @@ import { Carousel } from "react-bootstrap/";
 const HeroCarousel = () => {
   return (
     <div className="py-3" style={{ height: "70vh" }}>
-      <Carousel fade indicators={false}>
+      <Carousel fade controls={false}>
         <Carousel.Item interval={3000}>
           <img
             className="d-block w-100"

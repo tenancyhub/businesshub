@@ -30,6 +30,7 @@ const CreateShop = (props) => {
   const [currency, setCurrency] = useState([]);
   const [shopcreated, setShopcreated] = useState({});
   const [res, setRes] = useState({});
+  const [loading, setLoading] = useState(false);
   const [payRef, setPayRef] = useState({});
   const [riderAvailable, setAvailable] = useState(true);
 
@@ -61,6 +62,7 @@ const CreateShop = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setLoading(!loading);
       createShop(setRes, shop);
     }
     if (res.message === "200") {
@@ -191,6 +193,7 @@ const CreateShop = (props) => {
                 type="submit"
                 style={{ width: "100%" }}
               >
+                {loading && <i class="spinner-border spinner-border-sm"></i>}
                 Create Shop
               </CreateShopBtn>
             </div>
@@ -226,6 +229,7 @@ const CreateShop = (props) => {
                 currency={payRef.currency}
                 amount={payRef.amount}
                 name={shop.storeName}
+                phoneNumber=""
                 email={localStorage.getItem("email")}
                 storeName={`Payment for ${shop.storeName} Shop`}
                 // callback={onSuccess}

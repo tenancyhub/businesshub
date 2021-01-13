@@ -12,7 +12,7 @@ const PayWithRaveBtn = (props) => {
     payment_options: "card,mobilemoney,ussd",
     customer: {
       email: props.email,
-      phonenumber: "07037860938",
+      phonenumber: props.phoneNumber,
       name: props.name,
     },
     customizations: {
@@ -22,6 +22,12 @@ const PayWithRaveBtn = (props) => {
         "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
+
+  //   Card number: 4187 4274 1556 4246
+  // cvv: 828
+  // Expiry: 09/32
+  // Pin: 3310
+  // OTP: 12345
 
   const handleFlutterPayment = useFlutterwave(config);
 

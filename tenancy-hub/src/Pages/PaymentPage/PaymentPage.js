@@ -1,8 +1,9 @@
-import React from "react";
-// import { useState } from "react";
+import React, { useState, useEffect } from "react";
+// import { useState } from "react";/
 // import { useEffect } from "react";
 import PayWithRave from "../../components/RaveGateway/PayWithRaveBtn";
-// import { Subscribe } from "../../Services/MerchantTokaenPayment";
+import { Subscribe } from "../../Services/MerchantTokaenPayment";
+import { loadMerchantInfo } from "../../Services/LoadMerchant-InfoUtil";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/AuthAction";
 // import axios from "axios";
@@ -11,52 +12,34 @@ import { loadUser } from "../../actions/AuthAction";
 import "./pay.css";
 
 const PaymentPage = ({ user, loadUser }, props) => {
-  // useEffect(() => {
-  //   // loadUser();
-  //   // Subscribe(setConfig);
-  //   // if (localStorage.token) {
-  //   //   setAuthToken(localStorage.token);
-  //   // }
+  const [config, setConfig] = useState({});
+  const [details, setDetails] = useState({});
+  useEffect(() => {
+    // loadUser();
+    loadMerchantInfo(setDetails);
+    Subscribe(setConfig);
 
-  //   // try {
-  //   const ref = async () => {
-  //     if (localStorage.token) {
-  //       setAuthToken(localStorage.token);
-  //     }
-  //     try {
-  //       const res = await axios.get(`${util}merchant/my-info`);
-  //       setDetails({ ...res.data.user });
-  //       console.log(res.data.user);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   ref();
-  //   // console.log(details);
-  //   // eslint - disable - next - line;
-  // }, []);
+    // eslint - disable - next - line;
+  }, []);
 
-  // const onSuccess = () => {
-  //   props.history("/admin");
-  // };
+  const onSuccess = () => {
+    props.history("/admin");
+  };
 
-  // const [config, setConfig] = useState({});
-  // const [details, setDetails] = useState({});
   return (
     <div className="pay-container">
       <div className="pay">
         <p>Please click the button below to proceed to Payment</p>
         <PayWithRave
-        // btnText="Pay"
-        // txref={config.paymentReference}
-        // // ravePubKey="FLWPUBK_TEST-24e8c02b14df66ccb2e5494880a65e07-X"
-        // //   paymentReference={config.paymentReference}
-        // currency={config.currency}
-        // amount={config.amount}
-        // firstname={details.firstName}
-        // lastname={details.lastName}
-        // customer_email={details.email}
-        // callback={onSuccess}
+          // btnText="Pay"
+          tx_ref={config.paymentReference}
+          currency={config.currency}
+          amount={config.amount}
+          name={details.firstName}
+          phoneNumber={details.phoneNumber}
+          // lastname={details.lastName}
+          email={localStorage.email}
+          callback={onSuccess}
         />
       </div>
     </div>

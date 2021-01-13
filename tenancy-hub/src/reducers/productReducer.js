@@ -1,5 +1,7 @@
 import {
   GET_ITEMS,
+  GET_All_PRODUCTS,
+  GET_PREVIOUS_CARTS,
   ADD_TO_CARTS,
   DELETE_ITEM,
   DECREASE_CART_ITEM,
@@ -21,6 +23,7 @@ const initialState = {
   filtered: null,
   loading: true,
   items: [],
+  products: [],
   error: null,
   TotalAmountToPay: 0,
   inCartLength: 0,
@@ -33,6 +36,20 @@ export default (state = initialState, action) => {
         ...state,
         items: action.payload,
         loading: false,
+      };
+    case GET_All_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
+        items: action.payload,
+        loading: false,
+      };
+    case GET_PREVIOUS_CARTS:
+      return {
+        ...state,
+        // cart: addItemToCart(state.cart, action.payload),
+        cart: action.payload,
+        // TotalAmountToPay: getAmountToPay(state.cart),
       };
     case ADD_TO_CARTS:
       return {
