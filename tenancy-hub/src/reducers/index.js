@@ -1,8 +1,18 @@
 import { combineReducers } from "redux";
 import productReducer from "./productReducer";
 import AuthReducer from "./AuthReducer";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-export default combineReducers({
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["product", "Auth"],
+};
+
+const rootReducer = combineReducers({
   product: productReducer,
   Auth: AuthReducer,
 });
+
+export default persistReducer(persistConfig, rootReducer);
