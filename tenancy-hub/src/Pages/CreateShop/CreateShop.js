@@ -12,12 +12,6 @@ import PayWithRaveBtn from "../../components/RaveGateway/PayWithRaveBtn";
 import "./createShop.css";
 
 const CreateShop = (props) => {
-  useEffect(() => {
-    getCurrencyType(setCurrency);
-
-    //eslint - disable - next - line;
-  }, []);
-
   //   const history = useHistory();
   const [shop, setShop] = useState({
     storeName: "",
@@ -33,6 +27,12 @@ const CreateShop = (props) => {
   const [loading, setLoading] = useState(false);
   const [payRef, setPayRef] = useState({});
   const [riderAvailable, setAvailable] = useState(true);
+
+  useEffect(() => {
+    getCurrencyType(setCurrency);
+
+    //eslint - disable - next - line;
+  }, []);
 
   const validateForm = (props) => {
     // let formField = user.formField;

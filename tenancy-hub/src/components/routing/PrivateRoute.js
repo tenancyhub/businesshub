@@ -8,7 +8,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) =>
         !props.isAuthenticated && !props.loading ? (
-          <Redirect to="/" />
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         ) : (
           <Component {...props} />
         )
@@ -18,6 +18,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 const mapStateToProps = (state) => ({
   isAuthenticated: state.Auth.isAuthenticated,
-  loader: state.Auth.loading,
+  loading: state.Auth.loading,
 });
 export default connect(mapStateToProps)(PrivateRoute);

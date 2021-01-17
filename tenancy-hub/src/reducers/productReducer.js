@@ -14,11 +14,12 @@ import {
   getAmountToPay,
   getCartLength,
 } from "../utils/cart.utils";
+// import { getCurrencyType } from "../Services/CreateShoputil";
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
-const inCart = [];
+// const inCart = [];
 const initialState = {
-  inCart: JSON.parse(window.localStorage.getItem(inCart)),
+  // inCart: JSON.parse(window.localStorage.getItem(inCart)),
   cart: [],
   filtered: null,
   loading: true,
@@ -27,6 +28,7 @@ const initialState = {
   error: null,
   TotalAmountToPay: 0,
   inCartLength: 0,
+  currencyId: 1,
 };
 
 export default (state = initialState, action) => {
@@ -68,6 +70,11 @@ export default (state = initialState, action) => {
         cart: decreaseItem(state.cart, action.payload),
         loading: false,
       };
+    // case GET_CURRENCY_ID:
+    //   return {
+    //     ...state,
+    //     currencyId: getCurrencyType(state.cart),
+    //   };
     case GET_TOTAL:
       return {
         ...state,

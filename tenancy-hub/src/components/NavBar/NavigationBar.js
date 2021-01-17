@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
 // import Login from "../../Pages/Login-Modal/Login";
 import SignUpButton from "../CustomButton/CustomButton";
 import { connect } from "react-redux";
 import { logOut } from "../../actions/AuthAction";
+import ChangeLocation from "../SelectCountry/ChangeLocation";
 import "./Navbar.css";
-import FormInput from "../Form-input/form-input.component";
 
 const NavBar = ({ cart, logOut }) => {
-  const [showNav, setShowNav] = useState(false);
+  // const [showNav, setShowNav] = useState(false);
   const history = useHistory();
   const [isCustomer, setIsCustomer] = useState(false);
 
@@ -30,9 +31,9 @@ const NavBar = ({ cart, logOut }) => {
   //             </li>
   //   </Fragment>
   // )
-  const toggleNav = () => {
-    setShowNav(!showNav);
-  };
+  // const toggleNav = () => {
+  //   setShowNav(!showNav);
+  // };
   const onlogOut = async () => {
     // console.log("ljhj");
     localStorage.removeItem("userType");
@@ -41,37 +42,44 @@ const NavBar = ({ cart, logOut }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg fixed-top navbar-light">
-      {/* <div className="container"> */}
-      <>
-        <Link className="navbar-brand" to="/">
-          <p className="logo">
-            Tenancy <span style={{ color: "goldenrod" }}>Hub</span>
-          </p>
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          onClick={() => toggleNav()}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-nav">
-          <FormInput
-            type="search"
-            style={{ width: "350px" }}
-            placeholder="Search products ..."
-          />
+    <>
+      <div className="text-right">
+        <ChangeLocation />
+      </div>
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        className="nav-container"
+        bg="primary"
+        sticky="top"
+        variant="dark"
+      >
+        <div className="logo">
+          <Link to="/">
+            {" "}
+            <span style={{ color: "#ffb31a", fontSize: "40px" }}>J</span>umga
+          </Link>
         </div>
-
-        <div className={(showNav ? "show" : "") + " collapse navbar-collapse"}>
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mx-auto">
+            <Nav.Item>
+              <form>
+                <input
+                  type="search"
+                  className="nav-search-input"
+                  placeholder="search product"
+                />
+              </form>
+            </Nav.Item>
+          </Nav>
+          <Nav className="ml-auto">
+            <Nav.Item>
               <Link className="nav-link" to="/">
                 About us
               </Link>
-            </li>
-            <li className="nav-item">
+            </Nav.Item>
+            <Nav.Item>
               <SignUpButton
                 onClick={() => {
                   history.push(`/merchant-corner`);
@@ -79,10 +87,12 @@ const NavBar = ({ cart, logOut }) => {
                 type="button"
                 style={{ borderRadius: "5px" }}
               >
-                Sell on Tenancy hub
+                Sell on{" "}
+                <span style={{ color: "#ffb31a", fontSize: "20px" }}>J</span>
+                umga
               </SignUpButton>
-            </li>
-            <li className="nav-item">
+            </Nav.Item>
+            <Nav.Item>
               {localStorage.token ? (
                 <Link className="nav-link" to="/">
                   <span onClick={onlogOut}>Log out</span>
@@ -92,33 +102,37 @@ const NavBar = ({ cart, logOut }) => {
                   <span>Login</span>
                 </Link>
               )}
-            </li>
-          </ul>
-        </div>
-        {localStorage.token && localStorage.userType === "MERCHANT" ? null : (
-          <span className="nav-item mr-auto" style={{ position: "relative" }}>
-            <Link className="nav-link" to="/cart">
-              <i className="fas fa-shopping-cart fa-2x"></i>
+            </Nav.Item>
+            {/* <Nav.Item> */}
+            {localStorage.token &&
+            localStorage.userType === "MERCHANT" ? null : (
+              <span
+                className="nav-item mr-auto"
+                style={{ position: "relative" }}
+              >
+                <Link className="nav-link" to="/cart">
+                  <i className="fas fa-shopping-cart fa-2x"></i>
 
-              {cart && (
-                <p
-                  className="badge badge-danger"
-                  style={{
-                    position: "absolute",
-                    top: "-2px",
-                    right: "35PX",
-                  }}
-                >
-                  {cart.length}
-                </p>
-              )}
-            </Link>
-          </span>
-        )}
-
-        {/* </div> */}
-      </>
-    </nav>
+                  {cart && (
+                    <p
+                      className="badge badge-danger"
+                      style={{
+                        position: "absolute",
+                        top: "-2px",
+                        right: "35PX",
+                      }}
+                    >
+                      {cart.length}
+                    </p>
+                  )}
+                </Link>
+              </span>
+            )}
+            {/* </Nav.Item> */}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
   );
 };
 const mapStateToProps = (state) => ({

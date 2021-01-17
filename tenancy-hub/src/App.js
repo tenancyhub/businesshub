@@ -6,8 +6,11 @@ import Login from "./Pages/Login-Modal/Login";
 import SignUp from "./Pages/SignUp/SignUp";
 import Homepage from "./Pages/Homepage";
 // import MerchantDashboard from "./Pages/Dashboard/Merchant-Dashboard";
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import store from "./Store";
+
+import { store, persistor } from "./Store";
+
 import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import Products from "./Pages/Products";
 import { ToastContainer } from "react-toastify";
@@ -32,30 +35,32 @@ if (localStorage.token) {
 const App = () => {
   return (
     <Provider store={store}>
-      <Fragment>
-        <NavBar />
+      <PersistGate persistor={persistor}>
+        <Fragment>
+          <NavBar />
 
-        <Switch>
-          <Route exact path="/" component={Products} />
-          <Route path="/Login" component={Login} />
-          <Route path="/admin" component={MerchantDashboard} />
-          <Route path="/online-store/:storeName" component={Products} />
-          <Route path="/merchant-corner" component={Homepage} />
-          <Route path="/cart" component={Carts} />
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/selectshop" component={MerchantShop} />
-          <Route path="/registration-fee" component={PaymentPage} />
-          <Route path="/payment" component={PayWithRaveBtn} />
-          <Route path="/verify-merchant" component={VerifyMercchant} />
-          <Route path="/add-product" component={AddFormProduct} />
-          <Route path="/create-shop" component={CreateShop} />
-          {/* <Route path="/admin" component={MerchantDashboard} /> */}
-          <Route path="/register" component={SignUp} />
-          <Route path="/register-customer" component={RegisterCustomer} />
-          <Route component={ErrorPage} />
-        </Switch>
-        <ToastContainer />
-      </Fragment>
+          <Switch>
+            <Route exact path="/" component={Products} />
+            <Route path="/Login" component={Login} />
+            <Route path="/admin" component={MerchantDashboard} />
+            <Route path="/online-store/:storeName" component={Products} />
+            <Route path="/merchant-corner" component={Homepage} />
+            <Route path="/cart" component={Carts} />
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/selectshop" component={MerchantShop} />
+            <Route path="/registration-fee" component={PaymentPage} />
+            <Route path="/payment" component={PayWithRaveBtn} />
+            <Route path="/verify-merchant" component={VerifyMercchant} />
+            <Route path="/add-product" component={AddFormProduct} />
+            <Route path="/create-shop" component={CreateShop} />
+            {/* <Route path="/admin" component={MerchantDashboard} /> */}
+            <Route path="/register" component={SignUp} />
+            <Route path="/register-customer" component={RegisterCustomer} />
+            <Route component={ErrorPage} />
+          </Switch>
+          <ToastContainer />
+        </Fragment>
+      </PersistGate>
     </Provider>
   );
 };

@@ -12,7 +12,9 @@ const Hero = () => {
           <div className="hero-text">
             <h2>
               Need an online platform to build and grow your business? — Pitch
-              your tent with Tenancy hub for best experience.
+              your tent with{" "}
+              <span style={{ color: "#ffb31a", fontSize: "30px" }}>J</span>umga
+              for best experience.
             </h2>
             <div className="mt-4">
               <GetStarted

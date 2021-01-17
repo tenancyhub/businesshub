@@ -22,7 +22,7 @@ const Carts = ({
   history,
 }) => {
   const [total, setTotal] = useState(0);
-  const [response, setResponse] = useState(false);
+  const [response, setResponse] = useState("");
 
   useEffect(() => {
     // console.log(user);
@@ -43,7 +43,8 @@ const Carts = ({
     } else {
       cartItemsServices(setResponse, cart);
       // console.log("ready to checkout");
-      if (response) {
+      console.log(response);
+      if (response === "200") {
         history.push("/checkout");
       }
     }

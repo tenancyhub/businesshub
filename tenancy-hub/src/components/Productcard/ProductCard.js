@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import "./productcard.css";
 
 const ProductCard = ({ item, onClickToCart }) => {
-  const { imageUrl, description, amount } = item;
+  const { imageUrl, description, amount, shop } = item;
 
   return (
     <div className="col-lg-2 col-sm col-md-3 m-2 ">
@@ -18,7 +18,9 @@ const ProductCard = ({ item, onClickToCart }) => {
         </div>
 
         <Card.Body>
-          <Card.Title>&#8358;{amount}</Card.Title>
+          <Card.Title>
+            {shop.currency["shortCode"]} {amount}
+          </Card.Title>
           <Card.Text className="text-truncate">{description}</Card.Text>
         </Card.Body>
 

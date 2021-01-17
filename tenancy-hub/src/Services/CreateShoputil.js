@@ -3,9 +3,9 @@ import API_BASE_URL from "../utils/util";
 import setAuthToken from "../utils/SetAuthToken";
 
 export const getCurrencyType = async (callBackFunction) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+  // if (localStorage.token) {
+  //   setAuthToken(localStorage.token);
+  // }
   const config = {
     headers: {
       "content-Type": "application/json",

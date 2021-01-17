@@ -36,7 +36,10 @@ const WhyTenancy = () => {
     <section className="tenancy-section" section-data="why selling">
       <div className="container mt-5">
         <div className="section-title">
-          <h4 className="p-2">Why Sell on Tenancy-hub ?</h4>
+          <h4 className="p-2">
+            Why Sell on{" "}
+            <span style={{ color: "#ffb31a", fontSize: "30px" }}>J</span>umga ?
+          </h4>
           <hr style={{ border: "2px solid #004182", width: "17%" }} />
         </div>
         <div className="row">
