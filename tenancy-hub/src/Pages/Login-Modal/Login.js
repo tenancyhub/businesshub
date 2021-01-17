@@ -141,7 +141,7 @@ const Login = ({ login, isAuthenticated, error }, ...props) => {
         </form>
         <div>
           <h6>
-            Don't have a Account?{" "}
+            Don't have an Account?{" "}
             <Link to="/register-customer">
               {" "}
               <b style={{ color: "#004182" }}>Sign Up</b>

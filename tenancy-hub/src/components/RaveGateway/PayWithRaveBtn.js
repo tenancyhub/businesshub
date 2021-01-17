@@ -38,8 +38,8 @@ const PayWithRaveBtn = (props) => {
       <PayBtn
         onClick={() => {
           handleFlutterPayment({
-            callback: (response) => {
-              console.log(response);
+            callback: () => {
+              props.callback();
               closePaymentModal(); // this will close the modal programmatically
             },
             onClose: () => {
@@ -48,7 +48,7 @@ const PayWithRaveBtn = (props) => {
           });
         }}
       >
-        Proceed to pay
+        Pay
       </PayBtn>
     </div>
   );

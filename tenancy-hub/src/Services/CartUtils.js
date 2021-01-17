@@ -21,11 +21,12 @@ export const cartItemsServices = async (callBackFunction, carts) => {
       return cartItems;
     });
   }
+  const Id = localStorage.currencyId;
   try {
-    await axios.post(`${API_BASE_URL}cart`, cartItems, config);
+    await axios.post(`${API_BASE_URL}cart/${Id}`, cartItems, config);
 
     // console.log(res.data);
-    callBackFunction(true);
+    await callBackFunction("200");
   } catch (error) {
     console.error(error);
   }

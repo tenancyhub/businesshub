@@ -34,7 +34,7 @@ export const getItems = (store) => async (dispatch) => {
     // dispatch({ type: ITEM_ERROR, payload: err.response.data });
   }
 };
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (currencyId) => async (dispatch) => {
   // if (localStorage.token) {
   //   setAuthToken(localStorage.token);
   // }
@@ -45,7 +45,7 @@ export const getProducts = () => async (dispatch) => {
   };
   try {
     const res = await axios.post(
-      `https://fathomless-harbor-02544.herokuapp.com/product/general-filter`,
+      `https://fathomless-harbor-02544.herokuapp.com/product/general-filter/${currencyId}`,
 
       config
     );
